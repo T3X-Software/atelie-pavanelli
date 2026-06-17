@@ -233,29 +233,38 @@
   }
 
   /* ─────────────────────────────────────────────────
-     HERO  (texto à esquerda · imagem à direita)
+     HERO  (imagem grande à direita, full-bleed · texto à esquerda)
      ───────────────────────────────────────────────── */
   .hero {
     min-height: 100vh;
-    padding: 120px 0 80px;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
     background:
-      radial-gradient(120% 92% at 76% 46%, #FBF8F2 0%, rgba(251,248,242,0) 58%),
-      radial-gradient(circle at 14% 22%, #F1E3D3 0%, rgba(241,227,211,0) 46%),
-      radial-gradient(circle at 92% 82%, #DDE8E6 0%, rgba(221,232,230,0) 50%),
+      radial-gradient(72% 86% at 70% 48%, #FCF9F3 0%, rgba(252,249,243,0) 72%),
       var(--creme);
   }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.15fr;
-    gap: clamp(32px, 5vw, 80px);
-    align-items: center;
-    width: 100%;
+  .hero-photo {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 60%;
+    z-index: 0;
   }
-  .hero-copy { max-width: 520px; }
+  .hero-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .hero-photo::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--creme) 0%, rgba(245,240,232,0.6) 12%, rgba(245,240,232,0) 32%);
+    pointer-events: none;
+  }
+  .hero .container { position: relative; z-index: 1; width: 100%; }
+  .hero-copy { max-width: 460px; }
   .eyebrow .rule { width: 36px; height: 1px; background: var(--ouro); display: inline-block; }
   .hero-copy .eyebrow { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 26px; }
   .hero-copy h1 {
@@ -268,7 +277,7 @@
     font-size: 17px;
     line-height: 1.75;
     color: #4a4845;
-    max-width: 42ch;
+    max-width: 40ch;
     margin: 0 0 38px;
     font-weight: 300;
   }
@@ -277,18 +286,6 @@
     align-items: center;
     gap: 28px;
     flex-wrap: wrap;
-  }
-  .hero-visual {
-    position: relative;
-    aspect-ratio: 7 / 5;
-    max-height: 78vh;
-  }
-  .hero-visual img {
-    width: 100%; height: 100%;
-    object-fit: contain;
-    object-position: center;
-    display: block;
-    filter: drop-shadow(0 30px 50px rgba(44,44,42,0.18));
   }
   .btn {
     display: inline-flex;
@@ -346,10 +343,13 @@
   }
 
   @media (max-width: 860px) {
-    .hero { padding-top: 96px; padding-bottom: 56px; min-height: auto; }
-    .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero { min-height: auto; flex-direction: column; padding: 92px 0 52px; }
+    .hero-photo {
+      position: relative; width: 100%; height: 62vw; max-height: 440px;
+      margin-bottom: 28px;
+    }
+    .hero-photo::before { display: none; }
     .hero-copy { max-width: none; }
-    .hero-visual { aspect-ratio: 7 / 5; max-height: none; order: -1; }
     .hero-scroll { display: none; }
   }
 
@@ -532,8 +532,9 @@
   .product-card .slot-wrap {
     position: relative;
     aspect-ratio: 4 / 5;
-    background: #ECE5D5;
+    background: #EFE8DA;
     margin-bottom: 14px;
+    padding: clamp(14px, 4%, 28px);
   }
   .product-card image-slot {
     width: 100%;
@@ -1138,7 +1139,11 @@
      01 — HERO
      ═══════════════════════════════════════════════ -->
 <section class="hero" id="top">
-  <div class="container hero-grid">
+  <div class="hero-photo reveal">
+    <img src="media/hero-capa.jpg" alt="Canecas personalizadas do Ateliê Pavanelli" loading="eager"/>
+  </div>
+
+  <div class="container">
     <div class="hero-copy">
       <span class="eyebrow reveal"><span class="rule"></span>Ateliê de cerâmica artesanal</span>
       <h1 class="reveal d1">Cada peça <em>conta uma</em><br/>história.</h1>
@@ -1152,10 +1157,6 @@
         </a>
         <a href="#processo" class="btn btn-ghost">Conheça o processo</a>
       </div>
-    </div>
-
-    <div class="hero-visual reveal d2">
-      <img src="media/hero-capa.jpg" alt="Canecas personalizadas do Ateliê Pavanelli" loading="eager"/>
     </div>
   </div>
 
@@ -1492,16 +1493,17 @@
 
   // ─── Coleção: cards + modal de galeria ───
   const COLECAO = [
-    { slug:'caneca-personalizada', name:'Caneca personalizada',  color:'Várias cores',  dot:'#5C7C99', personalizavel:true,  n:15 },
-    { slug:'xicara-pires',         name:'Xícara e pires',         color:'Azul anil',     dot:'#34488F', personalizavel:true,  n:3  },
-    { slug:'xicara-gota',          name:'Xícara gota',            color:'Verde petróleo',dot:'#2E5B5B', personalizavel:false, n:3  },
-    { slug:'conjunto-japones',     name:'Conjunto japonês',       color:'Preto',         dot:'#2B2B2B', personalizavel:false, n:2  },
-    { slug:'prato-grande',         name:'Prato grande',           color:'Azul água',     dot:'#7DB8C4', personalizavel:false, n:3  },
+    { slug:'caneca-personalizada', name:'Caneca personalizada',  color:'Várias cores',  dot:'#7A7FCB', personalizavel:true,  n:13 },
+    { slug:'xicara-pires',         name:'Xícara e pires',         color:'Várias cores',  dot:'#C8B79A', personalizavel:true,  n:3  },
+    { slug:'xicara-gota',          name:'Xícara gota',            color:'Verde petróleo',dot:'#3A6066', personalizavel:false, n:3  },
+    { slug:'conjunto-japones',     name:'Conjunto japonês',       color:'Preto',         dot:'#1A1A1A', personalizavel:false, n:2  },
+    { slug:'prato-grande',         name:'Prato grande',           color:'Azul água',     dot:'#7DB8C4', personalizavel:false, n:2  },
     { slug:'prato-sobremesa',      name:'Prato de sobremesa',     color:'Mostarda',      dot:'#C8862A', personalizavel:false, n:1  },
-    { slug:'saladeira',            name:'Saladeira grande',       color:'Azul petróleo', dot:'#1E5A6E', personalizavel:false, n:2  },
+    { slug:'saladeira',            name:'Saladeira grande',       color:'Azul petróleo', dot:'#1F5C6E', personalizavel:false, n:2  },
     { slug:'bowl-molho',           name:'Bowl com compartimento', color:'Branco',        dot:'#E8E4D8', personalizavel:false, n:3  },
     { slug:'tabua-petiscos',       name:'Tábua para petiscos',    color:'Marfim',        dot:'#EAE3D2', personalizavel:false, n:5  },
     { slug:'porta-joias',          name:'Porta-joias',            color:'Branco',        dot:'#E8E4D8', personalizavel:true,  n:3  },
+    { slug:'porta-joias-floral',   name:'Porta-joias floral',     color:'Várias cores',  dot:'#D2718A', personalizavel:true,  n:7  },
     { slug:'porta-pinceis',        name:'Porta-pincéis',          color:'Rosa salmão',   dot:'#E8A89A', personalizavel:false, n:1  },
   ];
   const pImgs = (p) => Array.from({length:p.n}, (_,i)=>`media/colecao/${p.slug}/${String(i+1).padStart(2,'0')}.jpg`);
@@ -1518,7 +1520,7 @@
     card.setAttribute('tabindex', '0');
     card.innerHTML = `
       <div class="slot-wrap">
-        <img src="${pImgs(p)[0]}" alt="${p.name} — ${p.color}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+        <img src="${pImgs(p)[0]}" alt="${p.name} — ${p.color}" style="width:100%;height:100%;object-fit:contain;display:block" loading="lazy"/>
         ${p.n>1 ? `<span class="photo-count">${p.n} fotos</span>` : ''}
       </div>
       <div class="meta">
