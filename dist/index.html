@@ -233,39 +233,73 @@
   }
 
   /* ─────────────────────────────────────────────────
-     HERO
+     HERO  (estilo Pripa — colorido, escrita sobre a imagem)
      ───────────────────────────────────────────────── */
   .hero {
     min-height: 100vh;
-    padding: 120px 0 80px;
+    padding: 116px 0 72px;
     display: flex;
     align-items: center;
-    background: var(--creme);
     position: relative;
     overflow: hidden;
+    background:
+      radial-gradient(circle at 14% 22%, #EAD6C2 0%, rgba(234,214,194,0) 36%),
+      radial-gradient(circle at 86% 24%, #C4DAE0 0%, rgba(196,218,224,0) 38%),
+      radial-gradient(circle at 80% 84%, #E8CCC4 0%, rgba(232,204,196,0) 40%),
+      radial-gradient(circle at 20% 86%, #DCE0C2 0%, rgba(220,224,194,0) 40%),
+      var(--creme);
   }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    gap: clamp(40px, 6vw, 96px);
-    align-items: center;
+  .hero-stage {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
   }
-  .hero-copy .eyebrow { margin-bottom: 28px; display: inline-flex; align-items: center; gap: 14px; }
+  .hero-figure {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    max-height: 70vh;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 44px 90px -44px rgba(44,44,42,0.5);
+  }
+  .hero-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(165deg,
+      rgba(245,240,232,0.92) 0%, rgba(245,240,232,0.45) 24%, rgba(245,240,232,0) 46%);
+    pointer-events: none;
+  }
+  .hero-write {
+    position: absolute; top: 0; left: 0;
+    padding: clamp(22px, 4vw, 48px);
+    max-width: 82%;
+  }
   .eyebrow .rule { width: 36px; height: 1px; background: var(--ouro); display: inline-block; }
-  .hero h1 {
+  .hero-write .eyebrow { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .hero-write h1 {
     font-weight: 400;
     font-style: italic;
-    margin-bottom: 28px;
+    margin: 0;
+    max-width: 14ch;
+    text-shadow: 0 1px 1px rgba(245,240,232,0.6);
   }
-  .hero h1 em {
-    font-style: normal;
+  .hero-write h1 em { font-style: normal; }
+  .hero-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(24px, 4vw, 48px);
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding: 0 6px;
   }
   .hero-lede {
     font-size: 17px;
-    line-height: 1.75;
+    line-height: 1.7;
     color: #4a4845;
-    max-width: 46ch;
-    margin: 0 0 40px;
+    max-width: 48ch;
+    margin: 0;
     font-weight: 300;
   }
   .hero-actions {
@@ -304,42 +338,13 @@
   }
   .btn-light:hover { background: #fff; }
 
-  .hero-visual {
-    position: relative;
-    aspect-ratio: 4 / 3;
-    max-height: 78vh;
-  }
-  .hero-visual image-slot {
-    width: 100%;
-    height: 100%;
-  }
-  .hero-tag {
-    position: absolute;
-    left: -16px;
-    bottom: 28px;
-    background: var(--creme);
-    padding: 14px 22px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    border: 1px solid var(--areia);
-    max-width: 280px;
-  }
-  .hero-tag .swatch {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--azul-turquesa), var(--verde-cacador));
-    flex: 0 0 36px;
-    border: 1px solid rgba(0,0,0,0.06);
-  }
-  .hero-tag p {
-    margin: 0;
-    font-family: var(--serif);
-    font-size: 15px;
-    line-height: 1.3;
-    font-style: italic;
+  .btn-ghost-light {
     color: var(--carvao);
+    padding: 6px 0;
+    border-radius: 0;
+    border-bottom: 1px solid var(--ouro);
   }
+  .btn-ghost-light:hover { color: var(--ouro); gap: 16px; }
 
   .hero-scroll {
     position: absolute;
@@ -366,12 +371,12 @@
     50%      { transform: scaleY(1);   transform-origin: top; opacity: 1; }
   }
 
-  @media (max-width: 900px) {
-    .hero { padding-top: 100px; padding-bottom: 60px; min-height: auto; }
-    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-    .hero-visual { aspect-ratio: 4/3; max-height: none; order: -1; }
+  @media (max-width: 760px) {
+    .hero { padding-top: 92px; padding-bottom: 56px; min-height: auto; }
+    .hero-figure { aspect-ratio: 4 / 3.6; max-height: none; }
+    .hero-write { max-width: 100%; }
+    .hero-foot { margin-top: 24px; }
     .hero-scroll { display: none; }
-    .hero-tag { left: 16px; bottom: 16px; }
   }
 
   /* ─────────────────────────────────────────────────
@@ -1050,27 +1055,28 @@
      01 — HERO
      ═══════════════════════════════════════════════ -->
 <section class="hero" id="top">
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <span class="eyebrow reveal"><span class="rule"></span>Ateliê de cerâmica artesanal</span>
-      <h1 class="reveal d1">Cada peça <em>conta uma</em><br/>história.</h1>
-      <p class="hero-lede reveal d2">
-        Cerâmica moldada à mão, uma a uma, no tempo que um trabalho 100% artesanal pede.
-        Mais do que objetos: história, afeto e exclusividade para a sua mesa.
-      </p>
-      <div class="hero-actions reveal d3">
-        <a href="#colecao" class="btn btn-primary">Ver coleção
-          <svg width="14" height="14" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-        </a>
-        <a href="#processo" class="btn btn-ghost">Conheça o processo</a>
+  <div class="container">
+    <div class="hero-stage">
+      <div class="hero-figure reveal">
+        <img src="media/hero-capa.jpg" alt="Canecas personalizadas do Ateliê Pavanelli" loading="eager"/>
+        <div class="hero-scrim" aria-hidden="true"></div>
+        <div class="hero-write">
+          <span class="eyebrow reveal"><span class="rule"></span>Ateliê de cerâmica artesanal</span>
+          <h1 class="reveal d1">Cada peça <em>conta uma</em> história.</h1>
+        </div>
       </div>
-    </div>
 
-    <div class="hero-visual reveal d2">
-      <img src="media/hero-capa.jpg" alt="Canecas personalizadas do Ateliê Pavanelli" style="width:100%;height:100%;object-fit:cover;display:block" loading="eager"/>
-      <div class="hero-tag reveal d4">
-        <div class="swatch" aria-hidden="true"></div>
-        <p>Feito à mão,<br/>uma peça por vez.</p>
+      <div class="hero-foot">
+        <p class="hero-lede reveal d2">
+          Cerâmica moldada à mão, uma a uma, no tempo que um trabalho 100% artesanal pede.
+          Mais do que objetos: história, afeto e exclusividade para a sua mesa.
+        </p>
+        <div class="hero-actions reveal d3">
+          <a href="#colecao" class="btn btn-primary">Ver coleção
+            <svg width="14" height="14" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
+          <a href="#processo" class="btn btn-ghost-light">Conheça o processo</a>
+        </div>
       </div>
     </div>
   </div>
@@ -1152,68 +1158,123 @@
     <div class="product-grid">
       <article class="product-card reveal">
         <div class="slot-wrap">
-          <img src="media/colecao-xicara-personalizada.jpg" alt="Xícara personalizada — Victor" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+          <img src="media/colecao/caneca-personalizada.jpg" alt="Caneca personalizada em cerâmica artesanal" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
         </div>
         <div class="meta">
-          <h3 class="product-name">Xícara personalizada</h3>
+          <h3 class="product-name">Caneca personalizada</h3>
           <span class="product-price">Sob consulta</span>
         </div>
-        <span class="product-tag"><span class="dot" style="background:#2B2B2B"></span>Preto · Personalizável</span>
+        <span class="product-tag"><span class="dot" style="background:#5C7C99"></span>Várias cores · Personalizável</span>
       </article>
 
       <article class="product-card reveal d1">
         <div class="slot-wrap">
-          <img src="media/colecao-jogo-xicara-pires.jpg" alt="Jogo xícara e pires personalizado" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+          <img src="media/colecao/xicara-pires.jpg" alt="Xícara e pires personalizados em azul anil" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
         </div>
         <div class="meta">
-          <h3 class="product-name">Jogo xícara + pires</h3>
+          <h3 class="product-name">Xícara e pires</h3>
           <span class="product-price">Sob consulta</span>
         </div>
-        <span class="product-tag"><span class="dot" style="background:#E8E4D8;border-color:#C4B89A"></span>Branco · Personalizável</span>
+        <span class="product-tag"><span class="dot" style="background:#34488F"></span>Azul anil · Personalizável</span>
       </article>
 
       <article class="product-card reveal d2">
         <div class="slot-wrap">
-          <img src="media/colecao-caneca.jpg" alt="Caneca — Azul bebê" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+          <img src="media/colecao/xicara-gota.jpg" alt="Xícara gota em verde petróleo" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
         </div>
         <div class="meta">
-          <h3 class="product-name">Caneca</h3>
+          <h3 class="product-name">Xícara gota</h3>
           <span class="product-price">Sob consulta</span>
         </div>
-        <span class="product-tag"><span class="dot" style="background:#9DC3D8"></span>Azul bebê · Personalizável</span>
+        <span class="product-tag"><span class="dot" style="background:#2E5B5B"></span>Verde petróleo</span>
       </article>
 
       <article class="product-card reveal">
         <div class="slot-wrap">
-          <img src="media/colecao-bowls.jpg" alt="Bowls esculpidos — Verde petróleo" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+          <img src="media/colecao/conjunto-japones.jpg" alt="Conjunto japonês — prato, molheira e hashi" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
         </div>
         <div class="meta">
-          <h3 class="product-name">Bowls esculpidos</h3>
+          <h3 class="product-name">Conjunto japonês</h3>
           <span class="product-price">Sob consulta</span>
         </div>
-        <span class="product-tag"><span class="dot" style="background:#2E5B5B"></span>Verde petróleo · Personalizável</span>
+        <span class="product-tag"><span class="dot" style="background:#2B2B2B"></span>Preto</span>
       </article>
 
       <article class="product-card reveal d1">
         <div class="slot-wrap">
-          <img src="media/colecao-petisqueira.jpg" alt="Petisqueira — Branco" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+          <img src="media/colecao/prato-grande.jpg" alt="Prato grande em azul água" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
         </div>
         <div class="meta">
-          <h3 class="product-name">Petisqueira</h3>
+          <h3 class="product-name">Prato grande</h3>
+          <span class="product-price">Sob consulta</span>
+        </div>
+        <span class="product-tag"><span class="dot" style="background:#7DB8C4"></span>Azul água</span>
+      </article>
+
+      <article class="product-card reveal d2">
+        <div class="slot-wrap">
+          <img src="media/colecao/prato-sobremesa.jpg" alt="Prato de sobremesa em mostarda" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+        </div>
+        <div class="meta">
+          <h3 class="product-name">Prato de sobremesa</h3>
+          <span class="product-price">Sob consulta</span>
+        </div>
+        <span class="product-tag"><span class="dot" style="background:#C8862A"></span>Mostarda</span>
+      </article>
+
+      <article class="product-card reveal">
+        <div class="slot-wrap">
+          <img src="media/colecao/saladeira.jpg" alt="Saladeira grande em azul petróleo" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+        </div>
+        <div class="meta">
+          <h3 class="product-name">Saladeira grande</h3>
+          <span class="product-price">Sob consulta</span>
+        </div>
+        <span class="product-tag"><span class="dot" style="background:#1E5A6E"></span>Azul petróleo</span>
+      </article>
+
+      <article class="product-card reveal d1">
+        <div class="slot-wrap">
+          <img src="media/colecao/bowl-molho.jpg" alt="Bowl com compartimento para molho, branco salpicado" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+        </div>
+        <div class="meta">
+          <h3 class="product-name">Bowl com compartimento</h3>
+          <span class="product-price">Sob consulta</span>
+        </div>
+        <span class="product-tag"><span class="dot" style="background:#E8E4D8;border-color:#C4B89A"></span>Branco</span>
+      </article>
+
+      <article class="product-card reveal d2">
+        <div class="slot-wrap">
+          <img src="media/colecao/tabua-petiscos.jpg" alt="Tábua para petiscos em marfim" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+        </div>
+        <div class="meta">
+          <h3 class="product-name">Tábua para petiscos</h3>
+          <span class="product-price">Sob consulta</span>
+        </div>
+        <span class="product-tag"><span class="dot" style="background:#EAE3D2;border-color:#C4B89A"></span>Marfim</span>
+      </article>
+
+      <article class="product-card reveal">
+        <div class="slot-wrap">
+          <img src="media/colecao/porta-joias.jpg" alt="Porta-joias em cerâmica branca com frase gravada" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+        </div>
+        <div class="meta">
+          <h3 class="product-name">Porta-joias</h3>
           <span class="product-price">Sob consulta</span>
         </div>
         <span class="product-tag"><span class="dot" style="background:#E8E4D8;border-color:#C4B89A"></span>Branco · Personalizável</span>
       </article>
 
-      <article class="product-card reveal d2">
+      <article class="product-card reveal d1">
         <div class="slot-wrap">
-          <img src="media/colecao-porta-pinceis.jpg" alt="Porta-pincéis — Rosa salmão" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+          <img src="media/colecao/porta-pinceis.jpg" alt="Porta-pincéis em rosa salmão com bolinhas em relevo" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
         </div>
         <div class="meta">
           <h3 class="product-name">Porta-pincéis</h3>
           <span class="product-price">Sob consulta</span>
         </div>
-        <span class="product-tag"><span class="dot" style="background:#E8A89A"></span>Rosa salmão · Personalizável</span>
+        <span class="product-tag"><span class="dot" style="background:#E8A89A"></span>Rosa salmão</span>
       </article>
     </div>
   </div>
