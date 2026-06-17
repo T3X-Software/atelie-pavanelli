@@ -135,4 +135,8 @@ Aplicado em `dist/index.html`:
 **Fotos escolhidas (origem → destino):** uma por peça, copiadas de `rev/17062026/coleção/<peça>/`
 para `dist/media/colecao/`. Trocar é só substituir o arquivo de mesmo nome.
 
-**Pendente:** revisão final no navegador real (mobile) e **deploy no Vercel**.
+**Deploy:** ✅ feito em produção em 17/06/2026 — branch `ajustes-feedback-leticia-1706`
+(commit `ed44277`, pushed) e publicado no Vercel (projeto `atelie-pavanelli`), no ar em
+https://atelie-pavanelli.vercel.app.
+
+**Pendente:** revisão final pela Letícia no navegador real (desktop + mobile).

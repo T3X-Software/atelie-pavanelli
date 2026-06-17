@@ -233,73 +233,43 @@
   }
 
   /* ─────────────────────────────────────────────────
-     HERO  (estilo Pripa — colorido, escrita sobre a imagem)
+     HERO  (texto à esquerda · imagem à direita)
      ───────────────────────────────────────────────── */
   .hero {
     min-height: 100vh;
-    padding: 116px 0 72px;
+    padding: 120px 0 80px;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
     background:
-      radial-gradient(circle at 14% 22%, #EAD6C2 0%, rgba(234,214,194,0) 36%),
-      radial-gradient(circle at 86% 24%, #C4DAE0 0%, rgba(196,218,224,0) 38%),
-      radial-gradient(circle at 80% 84%, #E8CCC4 0%, rgba(232,204,196,0) 40%),
-      radial-gradient(circle at 20% 86%, #DCE0C2 0%, rgba(220,224,194,0) 40%),
+      radial-gradient(120% 92% at 76% 46%, #FBF8F2 0%, rgba(251,248,242,0) 58%),
+      radial-gradient(circle at 14% 22%, #F1E3D3 0%, rgba(241,227,211,0) 46%),
+      radial-gradient(circle at 92% 82%, #DDE8E6 0%, rgba(221,232,230,0) 50%),
       var(--creme);
   }
-  .hero-stage {
-    position: relative;
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  .hero-figure {
-    position: relative;
-    aspect-ratio: 4 / 3;
-    max-height: 70vh;
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 44px 90px -44px rgba(44,44,42,0.5);
-  }
-  .hero-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .hero-scrim {
-    position: absolute; inset: 0;
-    background: linear-gradient(165deg,
-      rgba(245,240,232,0.92) 0%, rgba(245,240,232,0.45) 24%, rgba(245,240,232,0) 46%);
-    pointer-events: none;
-  }
-  .hero-write {
-    position: absolute; top: 0; left: 0;
-    padding: clamp(22px, 4vw, 48px);
-    max-width: 82%;
-  }
-  .eyebrow .rule { width: 36px; height: 1px; background: var(--ouro); display: inline-block; }
-  .hero-write .eyebrow { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-  .hero-write h1 {
-    font-weight: 400;
-    font-style: italic;
-    margin: 0;
-    max-width: 14ch;
-    text-shadow: 0 1px 1px rgba(245,240,232,0.6);
-  }
-  .hero-write h1 em { font-style: normal; }
-  .hero-foot {
-    display: flex;
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: clamp(32px, 5vw, 80px);
     align-items: center;
-    justify-content: space-between;
-    gap: clamp(24px, 4vw, 48px);
-    flex-wrap: wrap;
-    margin-top: 30px;
-    padding: 0 6px;
+    width: 100%;
   }
+  .hero-copy { max-width: 520px; }
+  .eyebrow .rule { width: 36px; height: 1px; background: var(--ouro); display: inline-block; }
+  .hero-copy .eyebrow { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 26px; }
+  .hero-copy h1 {
+    font-weight: 400;
+    font-style: normal;
+    margin: 0 0 26px;
+  }
+  .hero-copy h1 em { font-style: italic; }
   .hero-lede {
     font-size: 17px;
-    line-height: 1.7;
+    line-height: 1.75;
     color: #4a4845;
-    max-width: 48ch;
-    margin: 0;
+    max-width: 42ch;
+    margin: 0 0 38px;
     font-weight: 300;
   }
   .hero-actions {
@@ -307,6 +277,18 @@
     align-items: center;
     gap: 28px;
     flex-wrap: wrap;
+  }
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 7 / 5;
+    max-height: 78vh;
+  }
+  .hero-visual img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    filter: drop-shadow(0 30px 50px rgba(44,44,42,0.18));
   }
   .btn {
     display: inline-flex;
@@ -338,14 +320,6 @@
   }
   .btn-light:hover { background: #fff; }
 
-  .btn-ghost-light {
-    color: var(--carvao);
-    padding: 6px 0;
-    border-radius: 0;
-    border-bottom: 1px solid var(--ouro);
-  }
-  .btn-ghost-light:hover { color: var(--ouro); gap: 16px; }
-
   .hero-scroll {
     position: absolute;
     left: 50%;
@@ -371,11 +345,11 @@
     50%      { transform: scaleY(1);   transform-origin: top; opacity: 1; }
   }
 
-  @media (max-width: 760px) {
-    .hero { padding-top: 92px; padding-bottom: 56px; min-height: auto; }
-    .hero-figure { aspect-ratio: 4 / 3.6; max-height: none; }
-    .hero-write { max-width: 100%; }
-    .hero-foot { margin-top: 24px; }
+  @media (max-width: 860px) {
+    .hero { padding-top: 96px; padding-bottom: 56px; min-height: auto; }
+    .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero-copy { max-width: none; }
+    .hero-visual { aspect-ratio: 7 / 5; max-height: none; order: -1; }
     .hero-scroll { display: none; }
   }
 
@@ -605,6 +579,115 @@
   }
   @media (max-width: 1000px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px)  { .product-grid { grid-template-columns: 1fr; } }
+
+  /* Card clicável (e-commerce) */
+  .product-card { cursor: pointer; }
+  .product-card .slot-wrap { overflow: hidden; }
+  .product-card .slot-wrap img { transition: transform .6s var(--ease); }
+  .product-card:hover .slot-wrap img { transform: scale(1.045); }
+  .product-card .slot-wrap::after {
+    content: "Ver peça";
+    position: absolute; left: 50%; bottom: 16px; transform: translate(-50%, 8px);
+    background: rgba(44,44,42,0.88); color: var(--creme);
+    font-family: var(--sans); font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+    padding: 9px 18px; border-radius: 999px;
+    opacity: 0; transition: opacity .3s var(--ease), transform .3s var(--ease);
+    pointer-events: none;
+  }
+  .product-card:hover .slot-wrap::after { opacity: 1; transform: translate(-50%, 0); }
+  .product-card .photo-count {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(245,240,232,0.92); color: var(--carvao);
+    font-family: var(--sans); font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+    padding: 5px 11px; border-radius: 999px;
+  }
+
+  /* Modal de produto */
+  .pm-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(28,27,24,0.62);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    padding: clamp(12px, 3vw, 40px);
+    opacity: 0; transition: opacity .3s var(--ease);
+  }
+  .pm-overlay.open { opacity: 1; }
+  .pm-overlay[hidden] { display: none; }
+  .pm-dialog {
+    position: relative;
+    background: var(--creme);
+    width: min(1040px, 100%);
+    max-height: 92vh;
+    border-radius: 8px; overflow: hidden;
+    display: grid; grid-template-columns: 1.1fr 1fr;
+    box-shadow: 0 40px 90px -30px rgba(0,0,0,0.5);
+    transform: translateY(12px) scale(.99); transition: transform .35s var(--ease);
+  }
+  .pm-overlay.open .pm-dialog { transform: none; }
+  .pm-close {
+    position: absolute; top: 14px; right: 14px; z-index: 3;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(245,240,232,0.9); color: var(--carvao);
+    display: grid; place-items: center;
+    transition: background .25s var(--ease), color .25s var(--ease);
+  }
+  .pm-close:hover { background: var(--carvao); color: var(--creme); }
+  .pm-gallery { background: #EDE7D9; display: flex; flex-direction: column; min-width: 0; }
+  .pm-stage { position: relative; flex: 1; min-height: 0; background: #EDE7D9; }
+  .pm-stage img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .pm-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(245,240,232,0.9); color: var(--carvao);
+    display: grid; place-items: center;
+    transition: background .25s var(--ease), color .25s var(--ease);
+  }
+  .pm-nav:hover { background: var(--carvao); color: var(--creme); }
+  .pm-prev { left: 12px; } .pm-next { right: 12px; }
+  .pm-counter {
+    position: absolute; bottom: 12px; right: 14px;
+    background: rgba(44,44,42,0.7); color: var(--creme);
+    font-family: var(--sans); font-size: 11px; letter-spacing: .1em;
+    padding: 4px 10px; border-radius: 999px;
+  }
+  .pm-thumbs {
+    display: flex; gap: 8px; padding: 12px; overflow-x: auto;
+    scrollbar-width: thin; background: var(--creme-2);
+  }
+  .pm-thumbs::-webkit-scrollbar { height: 6px; }
+  .pm-thumb {
+    flex: 0 0 56px; width: 56px; height: 56px; border-radius: 4px; overflow: hidden;
+    border: 2px solid transparent; opacity: .55; transition: opacity .2s var(--ease), border-color .2s var(--ease);
+    padding: 0;
+  }
+  .pm-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .pm-thumb.active { opacity: 1; border-color: var(--ouro); }
+  .pm-thumb:hover { opacity: 1; }
+  .pm-single .pm-thumbs, .pm-single .pm-nav, .pm-single .pm-counter { display: none; }
+  .pm-info {
+    padding: clamp(24px, 3vw, 44px);
+    overflow-y: auto; display: flex; flex-direction: column;
+  }
+  .pm-info .eyebrow { display: block; margin-bottom: 12px; }
+  .pm-info h3 { font-family: var(--serif); font-size: clamp(26px, 3vw, 36px); font-weight: 500; margin: 0 0 16px; }
+  .pm-metarow { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 22px; }
+  .pm-price { font-family: var(--sans); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--areia); }
+  .pm-desc { border-top: 1px solid var(--areia); padding-top: 22px; }
+  .pm-desc p { font-size: 14.5px; color: #4a4845; font-weight: 300; margin: 0 0 16px; line-height: 1.7; }
+  .pm-desc ul { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .pm-desc li { font-size: 14px; color: #4a4845; font-weight: 300; line-height: 1.6; }
+  .pm-desc li strong {
+    display: block; font-family: var(--sans); font-size: 11px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--ouro-dark); font-weight: 600; margin-bottom: 2px;
+  }
+  .pm-note { font-style: italic; }
+  .pm-info .btn { margin-top: auto; align-self: flex-start; }
+  body.pm-open { overflow: hidden; }
+  @media (max-width: 820px) {
+    .pm-dialog { grid-template-columns: 1fr; max-height: 94vh; }
+    .pm-stage { aspect-ratio: 4 / 3; flex: none; }
+    .pm-info { padding-top: 20px; }
+  }
 
   /* ─────────────────────────────────────────────────
      PALETA DE ESMALTES
@@ -1055,29 +1138,24 @@
      01 — HERO
      ═══════════════════════════════════════════════ -->
 <section class="hero" id="top">
-  <div class="container">
-    <div class="hero-stage">
-      <div class="hero-figure reveal">
-        <img src="media/hero-capa.jpg" alt="Canecas personalizadas do Ateliê Pavanelli" loading="eager"/>
-        <div class="hero-scrim" aria-hidden="true"></div>
-        <div class="hero-write">
-          <span class="eyebrow reveal"><span class="rule"></span>Ateliê de cerâmica artesanal</span>
-          <h1 class="reveal d1">Cada peça <em>conta uma</em> história.</h1>
-        </div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow reveal"><span class="rule"></span>Ateliê de cerâmica artesanal</span>
+      <h1 class="reveal d1">Cada peça <em>conta uma</em><br/>história.</h1>
+      <p class="hero-lede reveal d2">
+        Cerâmica moldada à mão, uma a uma, no tempo que um trabalho 100% artesanal pede.
+        Mais do que objetos: história, afeto e exclusividade para a sua mesa.
+      </p>
+      <div class="hero-actions reveal d3">
+        <a href="#colecao" class="btn btn-primary">Ver coleção
+          <svg width="14" height="14" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+        </a>
+        <a href="#processo" class="btn btn-ghost">Conheça o processo</a>
       </div>
+    </div>
 
-      <div class="hero-foot">
-        <p class="hero-lede reveal d2">
-          Cerâmica moldada à mão, uma a uma, no tempo que um trabalho 100% artesanal pede.
-          Mais do que objetos: história, afeto e exclusividade para a sua mesa.
-        </p>
-        <div class="hero-actions reveal d3">
-          <a href="#colecao" class="btn btn-primary">Ver coleção
-            <svg width="14" height="14" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-          </a>
-          <a href="#processo" class="btn btn-ghost-light">Conheça o processo</a>
-        </div>
-      </div>
+    <div class="hero-visual reveal d2">
+      <img src="media/hero-capa.jpg" alt="Canecas personalizadas do Ateliê Pavanelli" loading="eager"/>
     </div>
   </div>
 
@@ -1155,130 +1233,58 @@
       </p>
     </div>
 
-    <div class="product-grid">
-      <article class="product-card reveal">
-        <div class="slot-wrap">
-          <img src="media/colecao/caneca-personalizada.jpg" alt="Caneca personalizada em cerâmica artesanal" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Caneca personalizada</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#5C7C99"></span>Várias cores · Personalizável</span>
-      </article>
-
-      <article class="product-card reveal d1">
-        <div class="slot-wrap">
-          <img src="media/colecao/xicara-pires.jpg" alt="Xícara e pires personalizados em azul anil" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Xícara e pires</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#34488F"></span>Azul anil · Personalizável</span>
-      </article>
-
-      <article class="product-card reveal d2">
-        <div class="slot-wrap">
-          <img src="media/colecao/xicara-gota.jpg" alt="Xícara gota em verde petróleo" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Xícara gota</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#2E5B5B"></span>Verde petróleo</span>
-      </article>
-
-      <article class="product-card reveal">
-        <div class="slot-wrap">
-          <img src="media/colecao/conjunto-japones.jpg" alt="Conjunto japonês — prato, molheira e hashi" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Conjunto japonês</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#2B2B2B"></span>Preto</span>
-      </article>
-
-      <article class="product-card reveal d1">
-        <div class="slot-wrap">
-          <img src="media/colecao/prato-grande.jpg" alt="Prato grande em azul água" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Prato grande</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#7DB8C4"></span>Azul água</span>
-      </article>
-
-      <article class="product-card reveal d2">
-        <div class="slot-wrap">
-          <img src="media/colecao/prato-sobremesa.jpg" alt="Prato de sobremesa em mostarda" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Prato de sobremesa</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#C8862A"></span>Mostarda</span>
-      </article>
-
-      <article class="product-card reveal">
-        <div class="slot-wrap">
-          <img src="media/colecao/saladeira.jpg" alt="Saladeira grande em azul petróleo" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Saladeira grande</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#1E5A6E"></span>Azul petróleo</span>
-      </article>
-
-      <article class="product-card reveal d1">
-        <div class="slot-wrap">
-          <img src="media/colecao/bowl-molho.jpg" alt="Bowl com compartimento para molho, branco salpicado" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Bowl com compartimento</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#E8E4D8;border-color:#C4B89A"></span>Branco</span>
-      </article>
-
-      <article class="product-card reveal d2">
-        <div class="slot-wrap">
-          <img src="media/colecao/tabua-petiscos.jpg" alt="Tábua para petiscos em marfim" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Tábua para petiscos</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#EAE3D2;border-color:#C4B89A"></span>Marfim</span>
-      </article>
-
-      <article class="product-card reveal">
-        <div class="slot-wrap">
-          <img src="media/colecao/porta-joias.jpg" alt="Porta-joias em cerâmica branca com frase gravada" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Porta-joias</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#E8E4D8;border-color:#C4B89A"></span>Branco · Personalizável</span>
-      </article>
-
-      <article class="product-card reveal d1">
-        <div class="slot-wrap">
-          <img src="media/colecao/porta-pinceis.jpg" alt="Porta-pincéis em rosa salmão com bolinhas em relevo" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
-        </div>
-        <div class="meta">
-          <h3 class="product-name">Porta-pincéis</h3>
-          <span class="product-price">Sob consulta</span>
-        </div>
-        <span class="product-tag"><span class="dot" style="background:#E8A89A"></span>Rosa salmão</span>
-      </article>
-    </div>
+    <div class="product-grid" id="productGrid"></div>
   </div>
 </section>
+
+<!-- ═══════════════════════════════════════════════
+     MODAL DE PRODUTO (galeria + descrição)
+     ═══════════════════════════════════════════════ -->
+<div class="pm-overlay" id="pmOverlay" hidden>
+  <div class="pm-dialog" role="dialog" aria-modal="true" aria-labelledby="pmName">
+    <button class="pm-close" id="pmClose" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6 L18 18 M18 6 L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+
+    <div class="pm-gallery">
+      <div class="pm-stage">
+        <img id="pmImg" src="" alt=""/>
+        <button class="pm-nav pm-prev" id="pmPrev" aria-label="Imagem anterior">
+          <svg aria-hidden="true" width="18" height="18"><use href="#i-arrow-left"/></svg>
+        </button>
+        <button class="pm-nav pm-next" id="pmNext" aria-label="Próxima imagem">
+          <svg aria-hidden="true" width="18" height="18"><use href="#i-arrow-right"/></svg>
+        </button>
+        <span class="pm-counter" id="pmCounter"></span>
+      </div>
+      <div class="pm-thumbs" id="pmThumbs"></div>
+    </div>
+
+    <div class="pm-info">
+      <span class="eyebrow">A coleção</span>
+      <h3 id="pmName"></h3>
+      <div class="pm-metarow">
+        <span class="product-tag" id="pmTag"></span>
+        <span class="pm-price">Sob consulta</span>
+      </div>
+
+      <div class="pm-desc">
+        <p>100% artesanal, modelada e pintada de forma totalmente manual. É possível personalizar com nomes, iniciais, frases e símbolos.</p>
+        <ul>
+          <li><strong>Prazo</strong> Produção em aproximadamente 35 a 45 dias a partir do fechamento do pedido, podendo variar conforme o volume da encomenda.</li>
+          <li><strong>Uso</strong> Pode ir ao micro-ondas e à lava-louças. Só evite o contato direto com a chama do fogão.</li>
+          <li><strong>Materiais</strong> Atóxicos e seguros, perfeitos para o uso no dia a dia.</li>
+        </ul>
+        <p class="pm-note">Pequenas variações de cor e tamanho fazem parte do processo — valorize a autenticidade da sua peça. 🩶</p>
+      </div>
+
+      <a id="pmWa" class="btn btn-primary" href="#" target="_blank" rel="noopener">
+        Encomendar pelo WhatsApp
+        <svg width="16" height="16" aria-hidden="true"><use href="#i-wa"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
 
 <!-- ═══════════════════════════════════════════════
      04B — SOBRE AS PEÇAS / CUIDADOS
@@ -1484,6 +1490,104 @@
     track.appendChild(el);
   });
 
+  // ─── Coleção: cards + modal de galeria ───
+  const COLECAO = [
+    { slug:'caneca-personalizada', name:'Caneca personalizada',  color:'Várias cores',  dot:'#5C7C99', personalizavel:true,  n:15 },
+    { slug:'xicara-pires',         name:'Xícara e pires',         color:'Azul anil',     dot:'#34488F', personalizavel:true,  n:3  },
+    { slug:'xicara-gota',          name:'Xícara gota',            color:'Verde petróleo',dot:'#2E5B5B', personalizavel:false, n:3  },
+    { slug:'conjunto-japones',     name:'Conjunto japonês',       color:'Preto',         dot:'#2B2B2B', personalizavel:false, n:2  },
+    { slug:'prato-grande',         name:'Prato grande',           color:'Azul água',     dot:'#7DB8C4', personalizavel:false, n:3  },
+    { slug:'prato-sobremesa',      name:'Prato de sobremesa',     color:'Mostarda',      dot:'#C8862A', personalizavel:false, n:1  },
+    { slug:'saladeira',            name:'Saladeira grande',       color:'Azul petróleo', dot:'#1E5A6E', personalizavel:false, n:2  },
+    { slug:'bowl-molho',           name:'Bowl com compartimento', color:'Branco',        dot:'#E8E4D8', personalizavel:false, n:3  },
+    { slug:'tabua-petiscos',       name:'Tábua para petiscos',    color:'Marfim',        dot:'#EAE3D2', personalizavel:false, n:5  },
+    { slug:'porta-joias',          name:'Porta-joias',            color:'Branco',        dot:'#E8E4D8', personalizavel:true,  n:3  },
+    { slug:'porta-pinceis',        name:'Porta-pincéis',          color:'Rosa salmão',   dot:'#E8A89A', personalizavel:false, n:1  },
+  ];
+  const pImgs = (p) => Array.from({length:p.n}, (_,i)=>`media/colecao/${p.slug}/${String(i+1).padStart(2,'0')}.jpg`);
+  const pLight = (p) => ['#E8E4D8','#EAE3D2'].includes(p.dot);
+  const pDot = (p) => `background:${p.dot}` + (pLight(p) ? ';border-color:#C4B89A' : '');
+  const pTag = (p) => `<span class="dot" style="${pDot(p)}"></span>${p.color}${p.personalizavel ? ' · Personalizável' : ''}`;
+
+  const grid = document.getElementById('productGrid');
+  COLECAO.forEach((p, i) => {
+    const card = document.createElement('article');
+    card.className = 'product-card reveal' + (i%3===1 ? ' d1' : i%3===2 ? ' d2' : '');
+    card.dataset.slug = p.slug;
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.innerHTML = `
+      <div class="slot-wrap">
+        <img src="${pImgs(p)[0]}" alt="${p.name} — ${p.color}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"/>
+        ${p.n>1 ? `<span class="photo-count">${p.n} fotos</span>` : ''}
+      </div>
+      <div class="meta">
+        <h3 class="product-name">${p.name}</h3>
+        <span class="product-price">Sob consulta</span>
+      </div>
+      <span class="product-tag">${pTag(p)}</span>`;
+    const open = () => openModal(p);
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    grid.appendChild(card);
+  });
+
+  // Modal
+  const ov = document.getElementById('pmOverlay');
+  const pmDialog = ov.querySelector('.pm-dialog');
+  const pmImg = document.getElementById('pmImg');
+  const pmThumbs = document.getElementById('pmThumbs');
+  const pmName = document.getElementById('pmName');
+  const pmTagEl = document.getElementById('pmTag');
+  const pmCounter = document.getElementById('pmCounter');
+  const pmWa = document.getElementById('pmWa');
+  let gal = [], gi = 0;
+
+  function pmShow(idx) {
+    gi = (idx + gal.length) % gal.length;
+    pmImg.src = gal[gi];
+    pmCounter.textContent = `${gi+1} / ${gal.length}`;
+    pmThumbs.querySelectorAll('.pm-thumb').forEach((t,k)=>t.classList.toggle('active', k===gi));
+    const active = pmThumbs.querySelector('.pm-thumb.active');
+    if (active) active.scrollIntoView({ inline:'nearest', block:'nearest' });
+  }
+  function openModal(p) {
+    gal = pImgs(p); gi = 0;
+    pmName.textContent = p.name;
+    pmTagEl.innerHTML = pTag(p);
+    pmImg.alt = `${p.name} — ${p.color}`;
+    pmThumbs.innerHTML = '';
+    gal.forEach((src, k) => {
+      const b = document.createElement('button');
+      b.className = 'pm-thumb' + (k===0 ? ' active' : '');
+      b.innerHTML = `<img src="${src}" alt="" loading="lazy"/>`;
+      b.addEventListener('click', () => pmShow(k));
+      pmThumbs.appendChild(b);
+    });
+    pmDialog.classList.toggle('pm-single', gal.length <= 1);
+    const msg = encodeURIComponent(`Olá! Tenho interesse na peça "${p.name}" do Ateliê Pavanelli. Pode me passar mais informações?`);
+    pmWa.href = `https://wa.me/5511997392922?text=${msg}`;
+    pmShow(0);
+    ov.hidden = false;
+    requestAnimationFrame(() => ov.classList.add('open'));
+    document.body.classList.add('pm-open');
+  }
+  function closeModal() {
+    ov.classList.remove('open');
+    document.body.classList.remove('pm-open');
+    setTimeout(() => { ov.hidden = true; }, 300);
+  }
+  document.getElementById('pmClose').addEventListener('click', closeModal);
+  document.getElementById('pmPrev').addEventListener('click', () => pmShow(gi-1));
+  document.getElementById('pmNext').addEventListener('click', () => pmShow(gi+1));
+  ov.addEventListener('click', (e) => { if (e.target === ov) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (ov.hidden) return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') pmShow(gi-1);
+    else if (e.key === 'ArrowRight') pmShow(gi+1);
+  });
+
   // Rail drag-to-scroll + buttons
   const rail = document.getElementById('swatchRail');
   let isDown = false, startX = 0, scrollLeft = 0;
@@ -1566,7 +1670,9 @@
     v.muted = true;
     v.loop = true;
     v.playsInline = true;
-    v.controls = true;
+    v.controls = false;
+    v.setAttribute('disablepictureinpicture', '');
+    v.setAttribute('controlslist', 'nodownload noplaybackrate');
     v.preload = 'auto';
     frame.appendChild(v);
     v.play().catch(()=>{});
