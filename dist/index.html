@@ -1268,7 +1268,7 @@
       <h3 id="pmName"></h3>
       <div class="pm-metarow">
         <span class="product-tag" id="pmTag"></span>
-        <span class="pm-price">Sob consulta</span>
+        <span class="pm-price" id="pmPrice"></span>
       </div>
 
       <div class="pm-desc">
@@ -1495,23 +1495,21 @@
 
   // ─── Coleção: cards + modal de galeria ───
   const COLECAO = [
-    { slug:'caneca-personalizada', name:'Caneca personalizada',  color:'Várias cores',  dot:'#7A7FCB', personalizavel:true,  n:13 },
-    { slug:'xicara-pires',         name:'Xícara e pires',         color:'Várias cores',  dot:'#C8B79A', personalizavel:true,  n:3  },
-    { slug:'xicara-gota',          name:'Xícara gota',            color:'Verde petróleo',dot:'#3A6066', personalizavel:false, n:3  },
-    { slug:'conjunto-japones',     name:'Conjunto japonês',       color:'Preto',         dot:'#1A1A1A', personalizavel:false, n:2  },
-    { slug:'prato-grande',         name:'Prato grande',           color:'Azul água',     dot:'#7DB8C4', personalizavel:false, n:2  },
-    { slug:'prato-sobremesa',      name:'Prato de sobremesa',     color:'Mostarda',      dot:'#C8862A', personalizavel:false, n:1  },
-    { slug:'saladeira',            name:'Saladeira grande',       color:'Azul petróleo', dot:'#1F5C6E', personalizavel:false, n:2  },
-    { slug:'bowl-molho',           name:'Bowl com compartimento', color:'Branco',        dot:'#E8E4D8', personalizavel:false, n:3  },
-    { slug:'tabua-petiscos',       name:'Tábua para petiscos',    color:'Marfim',        dot:'#EAE3D2', personalizavel:false, n:5  },
-    { slug:'porta-joias',          name:'Porta-joias',            color:'Branco',        dot:'#E8E4D8', personalizavel:true,  n:3  },
-    { slug:'porta-joias-floral',   name:'Porta-joias floral',     color:'Várias cores',  dot:'#D2718A', personalizavel:true,  n:7  },
-    { slug:'porta-pinceis',        name:'Porta-pincéis',          color:'Rosa salmão',   dot:'#E8A89A', personalizavel:false, n:1  },
+    { slug:'porta-joias-floral',   name:'Porta-joias floral',       color:'Várias cores',  dot:'#D2718A', personalizavel:false, spec:'12cm',                                price:'R$ 49,90',  n:10 },
+    { slug:'caneca-personalizada', name:'Caneca personalizada',     color:'Várias cores',  dot:'#7A7FCB', personalizavel:true,  spec:'250ml',                               price:'R$ 70,00',  n:12 },
+    { slug:'saladeira',            name:'Saladeira grande',         color:'Azul petróleo', dot:'#1F5C6E', personalizavel:false, spec:'',                                    price:'R$ 179,90', n:2  },
+    { slug:'tabua-petiscos',       name:'Tábua para petiscos grande', color:'Branco',       dot:'#E8E4D8', personalizavel:false, spec:'',                                    price:'R$ 189,90', n:5  },
+    { slug:'xicara-gota',          name:'Xícara gota',              color:'Verde petróleo',dot:'#3A6066', personalizavel:false, spec:'conjunto',                            price:'R$ 89,90',  n:3  },
+    { slug:'copo-amassado',        name:'Copo amassado',            color:'Verde oliva',   dot:'#7D7256', personalizavel:false, spec:'150ml',                               price:'R$ 40,00',  n:2  },
+    { slug:'copo-amassado-vela',   name:'Copo amassado + vela',     color:'Verde oliva',   dot:'#7D7256', personalizavel:false, spec:'150ml',                               price:'R$ 70,00',  n:4  },
+    { slug:'xicara-pires',         name:'Xícara + pires',           color:'Várias cores',  dot:'#2B4A2E', personalizavel:true,  spec:'pratinho 12cm · xícara 6x9cm',        price:'R$ 69,90',  n:3  },
+    { slug:'kit-presente',         name:'Kit presente',             color:'Várias cores',  dot:'#8C8168', personalizavel:true,  spec:'vela + bandeja decorativa',           price:'R$ 130,00', n:3  },
+    { slug:'conjunto-japones',     name:'Conjunto japonês',         color:'Preto',         dot:'#1A1A1A', personalizavel:false, spec:'prato + porta shoyu',                 price:'R$ 89,90',  n:2  },
   ];
   const pImgs = (p) => Array.from({length:p.n}, (_,i)=>`media/colecao/${p.slug}/${String(i+1).padStart(2,'0')}.jpg`);
   const pLight = (p) => ['#E8E4D8','#EAE3D2'].includes(p.dot);
   const pDot = (p) => `background:${p.dot}` + (pLight(p) ? ';border-color:#C4B89A' : '');
-  const pTag = (p) => `<span class="dot" style="${pDot(p)}"></span>${p.color}${p.personalizavel ? ' · Personalizável' : ''}`;
+  const pTag = (p) => `<span class="dot" style="${pDot(p)}"></span>${p.color}${p.spec ? ' · ' + p.spec : ''}${p.personalizavel ? ' · Personalizável' : ''}`;
 
   const grid = document.getElementById('productGrid');
   COLECAO.forEach((p, i) => {
@@ -1527,7 +1525,7 @@
       </div>
       <div class="meta">
         <h3 class="product-name">${p.name}</h3>
-        <span class="product-price">Sob consulta</span>
+        <span class="product-price">${p.price}</span>
       </div>
       <span class="product-tag">${pTag(p)}</span>`;
     const open = () => openModal(p);
@@ -1543,6 +1541,7 @@
   const pmThumbs = document.getElementById('pmThumbs');
   const pmName = document.getElementById('pmName');
   const pmTagEl = document.getElementById('pmTag');
+  const pmPrice = document.getElementById('pmPrice');
   const pmCounter = document.getElementById('pmCounter');
   const pmWa = document.getElementById('pmWa');
   let gal = [], gi = 0;
@@ -1559,6 +1558,7 @@
     gal = pImgs(p); gi = 0;
     pmName.textContent = p.name;
     pmTagEl.innerHTML = pTag(p);
+    pmPrice.textContent = p.price;
     pmImg.alt = `${p.name} — ${p.color}`;
     pmThumbs.innerHTML = '';
     gal.forEach((src, k) => {
