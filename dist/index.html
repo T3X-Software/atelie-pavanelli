@@ -372,130 +372,6 @@
     text-wrap: balance;
     font-weight: 400;
   }
-  .pillars {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(24px, 5vw, 56px);
-    border-top: 1px solid var(--areia);
-    padding-top: 56px;
-  }
-  .pillar { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-  .pillar-icon {
-    width: 44px;
-    height: 44px;
-    color: var(--ouro);
-  }
-  .pillar-title {
-    font-family: var(--sans);
-    font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--carvao);
-  }
-  .pillar-text {
-    font-size: 14px;
-    color: #5a5854;
-    font-weight: 300;
-    max-width: 22ch;
-    margin: 0;
-  }
-  @media (max-width: 700px) {
-    .pillars { grid-template-columns: 1fr; gap: 36px; }
-  }
-
-  /* ─────────────────────────────────────────────────
-     VIDEO
-     ───────────────────────────────────────────────── */
-  .video-section {
-    background: var(--creme-2);
-    padding: clamp(80px, 12vw, 140px) 0;
-    text-align: center;
-  }
-  .video-section .eyebrow { margin-bottom: 24px; display: inline-block; }
-  .video-section h2 {
-    font-style: italic;
-    font-weight: 400;
-    margin-bottom: 56px;
-  }
-  .video-frame {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    max-width: 960px;
-    margin: 0 auto;
-    border-radius: 4px;
-    overflow: hidden;
-    background: var(--carvao);
-    box-shadow: 0 30px 60px -30px rgba(44, 44, 42, 0.35);
-  }
-  .video-frame video,
-  .video-frame iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    background: var(--carvao);
-  }
-  .video-frame video { object-fit: cover; }
-  .video-empty {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    color: var(--areia-soft);
-    font-family: var(--sans);
-    font-size: 12px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    font-weight: 300;
-    cursor: pointer;
-    z-index: 2;
-    background:
-      radial-gradient(circle at 70% 30%, rgba(139,125,62,0.25), transparent 50%),
-      linear-gradient(180deg, #3d3a32 0%, #1c1b18 100%);
-    transition: color .25s var(--ease);
-  }
-  .video-empty:hover { color: var(--creme); }
-  .video-empty svg { width: 36px; height: 36px; opacity: 0.85; }
-  .video-empty span { display: block; }
-
-  /* Controls strip below the video frame */
-  .video-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
-  .video-controls button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--carvao);
-    padding: 8px 0;
-    border-bottom: 1px solid var(--areia);
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-weight: 400;
-    transition: color .25s var(--ease), border-color .25s var(--ease);
-  }
-  .video-controls button:hover { color: var(--ouro); border-color: var(--ouro); }
-  .video-controls button svg { width: 12px; height: 12px; }
-  .video-controls .sep { width: 1px; height: 14px; background: var(--areia); }
-  .video-caption {
-    margin-top: 28px;
-    font-weight: 300;
-    font-size: 14px;
-    color: #5a5854;
-    font-style: italic;
-  }
 
   /* ─────────────────────────────────────────────────
      COLEÇÃO / GALERIA
@@ -692,6 +568,177 @@
   }
 
   /* ─────────────────────────────────────────────────
+     SOBRE — exploded view guiada por scroll (feito à mão)
+     ───────────────────────────────────────────────── */
+  .camadas {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: clamp(32px, 6vw, 80px);
+    align-items: center;
+    margin-top: clamp(56px, 9vw, 96px);
+    border-top: 1px solid var(--areia);
+    padding-top: clamp(56px, 9vw, 96px);
+    text-align: left;
+  }
+
+  .camadas-visual {
+    position: relative;
+    padding-left: 214px;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .camadas-ruler {
+    position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px;
+    background: rgba(44,44,42,0.12);
+  }
+  .camadas-ruler-fill {
+    position: absolute; left: 0; top: 0; width: 100%;
+    height: calc(var(--t, 0) * 100%);
+    background: var(--ouro);
+    transition: height .1s linear;
+  }
+  .camadas-tag {
+    position: absolute;
+    left: 14px; width: 200px;
+    transform: translateY(-50%);
+    opacity: var(--t, 0);
+    transition: opacity .4s var(--ease);
+    pointer-events: none;
+  }
+  .camadas-tag-head { display: flex; align-items: center; gap: 6px; }
+  .camadas-tag-label {
+    flex: 0 0 auto;
+    font-family: var(--sans); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em; color: var(--carvao);
+    white-space: nowrap;
+  }
+  .camadas-tag-line {
+    flex: 1 1 auto; height: 1px; min-width: 8px;
+    background-image: linear-gradient(90deg, rgba(139,125,62,0.55) 0 4px, transparent 4px 8px);
+    background-size: 8px 1px;
+  }
+  .camadas-tag-desc {
+    margin: 5px 0 0;
+    font-size: 11px; line-height: 1.5;
+    color: rgba(44,44,42,0.6);
+    max-width: 24ch;
+  }
+  .camadas-stage {
+    position: relative;
+    aspect-ratio: 640 / 760;
+  }
+  .camadas-layer {
+    position: absolute; inset: 0;
+    transform: translateY(calc(var(--t, 0) * var(--dir, 0) * var(--dist, 0) * var(--speed, 1) * 1px));
+    filter: drop-shadow(0 calc(var(--t, 0) * 8px) calc(var(--t, 0) * 14px) rgba(44,44,42,0.16));
+    transition: transform .1s linear, filter .1s linear;
+  }
+  .camadas-layer img {
+    display: block; width: 100%; height: 100%;
+    object-fit: contain;
+  }
+
+  .camadas-side { text-align: left; }
+  .sobre-steps { display: flex; flex-direction: column; gap: clamp(32px, 5vw, 44px); }
+  .sobre-step {
+    display: flex; align-items: flex-start; gap: 18px;
+    padding-top: clamp(32px, 5vw, 44px);
+    border-top: 1px solid rgba(44,44,42,0.10);
+  }
+  .sobre-step:first-child { padding-top: 0; border-top: none; }
+  .sobre-step .pillar-icon {
+    flex: 0 0 auto;
+    width: 44px; height: 44px;
+    padding: 11px;
+    border-radius: 50%;
+    background: var(--creme-2);
+    color: var(--ouro-dark);
+  }
+  .sobre-step .pillar-title {
+    font-family: var(--sans); font-weight: 500; font-size: 12px;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--carvao);
+    margin: 0 0 8px;
+  }
+  .sobre-step .pillar-text { font-size: 15px; color: #5a5854; font-weight: 300; max-width: 36ch; margin: 0; line-height: 1.6; }
+
+  @media (max-width: 860px) {
+    .camadas { grid-template-columns: 1fr; }
+    .camadas-visual { padding-left: 26px; max-width: 320px; margin: 0 auto 32px; }
+    .camadas-tag { display: none; }
+  }
+
+  /* ─────────────────────────────────────────────────
+     COMO FUNCIONA — pinned horizontal scroll
+     ───────────────────────────────────────────────── */
+  .processo-pin { position: relative; }
+  .processo-rail {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    will-change: transform;
+  }
+  .processo-panel {
+    flex: 0 0 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--gutter);
+  }
+  .processo-card {
+    max-width: 680px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+  .processo-art {
+    width: clamp(140px, 16vw, 200px);
+    height: clamp(140px, 16vw, 200px);
+    border-radius: 50%;
+    border: 1px solid var(--areia);
+    background: var(--creme);
+    display: grid;
+    place-items: center;
+    color: var(--ouro);
+  }
+  .processo-art svg { width: 46%; height: 46%; }
+  .processo-card .step-number {
+    width: auto; height: auto;
+    border: none;
+    background: none;
+    font-size: 15px;
+    margin-bottom: 8px;
+    justify-self: start;
+  }
+  .processo-card h3 { font-size: clamp(30px, 4vw, 42px); margin-bottom: 14px; }
+  .processo-card p { font-size: 16px; max-width: 32ch; }
+  .processo-progress {
+    position: absolute;
+    left: 50%; bottom: clamp(24px, 5vw, 48px);
+    transform: translateX(-50%);
+    display: flex; gap: 10px;
+    z-index: 2;
+  }
+  .processo-progress span {
+    width: 34px; height: 2px; background: var(--areia);
+    position: relative; overflow: hidden;
+  }
+  .processo-progress span::after {
+    content: ""; position: absolute; inset: 0;
+    background: var(--ouro); transform: scaleX(0); transform-origin: left;
+  }
+  .processo-progress span.active::after { transform: scaleX(1); transition: transform .3s var(--ease); }
+  @media (max-width: 800px) {
+    .processo-card { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .processo-pin { height: auto; }
+    .processo-rail { flex-direction: column; height: auto; }
+    .processo-panel { flex: none; width: 100%; padding: 40px var(--gutter); }
+    .processo-progress { display: none; }
+  }
+
+  /* ─────────────────────────────────────────────────
      PALETA DE ESMALTES
      ───────────────────────────────────────────────── */
   .esmaltes {
@@ -802,30 +849,9 @@
   /* ─────────────────────────────────────────────────
      COMO FUNCIONA
      ───────────────────────────────────────────────── */
-  .processo { padding: clamp(80px, 12vw, 140px) 0; text-align: center; }
+  .processo { padding: clamp(80px, 12vw, 140px) 0 0; text-align: center; }
   .processo .eyebrow { margin-bottom: 18px; display: inline-block; }
-  .processo h2 { margin-bottom: 72px; }
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(28px, 5vw, 64px);
-    position: relative;
-    text-align: left;
-  }
-  .steps::before {
-    content: "";
-    position: absolute;
-    top: 28px;
-    left: 12%;
-    right: 12%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--areia), transparent);
-  }
-  .step {
-    background: var(--creme);
-    padding: 0 8px;
-    position: relative;
-  }
+  .processo h2 { margin-bottom: 0; }
   .step-number {
     font-family: var(--serif);
     font-style: italic;
@@ -837,34 +863,32 @@
     border-radius: 50%;
     display: grid;
     place-items: center;
-    margin-bottom: 28px;
     letter-spacing: 0.04em;
   }
-  .step h3 {
+  .processo-card h3 {
     font-family: var(--serif);
-    font-size: 26px;
     font-weight: 500;
-    margin-bottom: 12px;
+    text-align: left;
   }
-  .step p {
-    font-size: 14px;
+  .processo-card p {
+    font-size: 15px;
     color: #5a5854;
     font-weight: 300;
     line-height: 1.75;
     margin: 0;
-    max-width: 28ch;
+    text-align: left;
   }
   .processo-foot {
-    margin-top: 72px;
+    padding: clamp(48px, 8vw, 88px) 0 clamp(80px, 12vw, 140px);
     font-size: 13px;
     font-weight: 300;
     color: var(--areia);
     font-style: italic;
     letter-spacing: 0.04em;
+    margin: 0;
   }
   @media (max-width: 800px) {
-    .steps { grid-template-columns: 1fr; gap: 48px; }
-    .steps::before { display: none; }
+    .processo-card h3, .processo-card p { text-align: center; }
   }
 
   /* ─────────────────────────────────────────────────
@@ -1073,6 +1097,35 @@
       </g>
     </symbol>
 
+    <!-- Como funciona: ilustrações dos passos -->
+    <symbol id="i-step-escolha" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="14" cy="36" r="8"/>
+        <circle cx="50" cy="36" r="8"/>
+        <circle cx="32" cy="30" r="12"/>
+        <circle cx="32" cy="30" r="18" stroke-dasharray="2 4" stroke-width="1"/>
+        <path d="M26 30 L30.5 34.5 L39 24" stroke-width="1.4"/>
+      </g>
+    </symbol>
+    <symbol id="i-step-encomenda" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M24 18 H40"/>
+        <path d="M25 18 C22 25 22 34 26 40 C28 43 36 43 38 40 C42 34 42 25 39 18"/>
+        <ellipse cx="32" cy="46" rx="17" ry="4.5"/>
+        <path d="M13 28 a19 19 0 0 1 4.5 -15" stroke-dasharray="2 4" stroke-width="1"/>
+        <path d="M51 28 a19 19 0 0 0 -4.5 -15" stroke-dasharray="2 4" stroke-width="1"/>
+      </g>
+    </symbol>
+    <symbol id="i-step-receba" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 27 L32 19 L50 27 L32 35 Z"/>
+        <path d="M14 27 V43 L32 51 V35"/>
+        <path d="M50 27 V43 L32 51"/>
+        <path d="M32 19 V7" stroke-dasharray="2 4" stroke-width="1"/>
+        <circle cx="32" cy="5" r="1.6" fill="currentColor" stroke="none"/>
+      </g>
+    </symbol>
+
     <symbol id="i-arrow-right" viewBox="0 0 24 24">
       <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
         <path d="M5 12 H19 M13 6 L19 12 L13 18"/>
@@ -1178,44 +1231,77 @@
       Nossas peças são moldadas à mão, uma a uma. Ao escolher uma peça do Ateliê Pavanelli,
       você leva para casa mais do que cerâmica: leva história, afeto e exclusividade.
     </blockquote>
-
-    <div class="pillars">
-      <div class="pillar reveal d1">
-        <svg class="pillar-icon" aria-hidden="true"><use href="#i-hand"/></svg>
-        <p class="pillar-title">Feito à mão</p>
-        <p class="pillar-text">Cada peça moldada uma a uma, no ritmo do artesanato.</p>
-      </div>
-      <div class="pillar reveal d2">
-        <svg class="pillar-icon" aria-hidden="true"><use href="#i-unique"/></svg>
-        <p class="pillar-title">Única</p>
-        <p class="pillar-text">Pequenas variações fazem parte da beleza de cada uma.</p>
-      </div>
-      <div class="pillar reveal d3">
-        <svg class="pillar-icon" aria-hidden="true"><use href="#i-leaf"/></svg>
-        <p class="pillar-title">Atóxica</p>
-        <p class="pillar-text">Materiais seguros, prontos para o dia a dia e para durar.</p>
-      </div>
-    </div>
   </div>
-</section>
 
-<!-- ═══════════════════════════════════════════════
-     03 — VÍDEO
-     ═══════════════════════════════════════════════ -->
-<section class="video-section" id="video">
   <div class="container">
-    <span class="eyebrow reveal">Do começo ao fim</span>
-    <h2 class="reveal d1">Da argila à sua mesa</h2>
+    <div class="camadas" id="camadas">
+      <div class="camadas-visual" id="camadasVisual" style="--t:0">
+        <span class="camadas-ruler"><span class="camadas-ruler-fill" id="camadasRulerFill"></span></span>
 
-    <div class="video-frame reveal d2" id="videoFrame">
-      <!-- Vídeo carregado dinamicamente pelo script abaixo (mp4 local ou link YouTube/Vimeo) -->
-      <div class="video-empty" id="videoEmpty" role="button" tabindex="0" aria-label="Adicionar vídeo">
-        <svg aria-hidden="true"><use href="#i-upload"/></svg>
-        <span>Adicionar vídeo</span>
+        <div class="camadas-tag" style="top:6%;">
+          <div class="camadas-tag-head">
+            <span class="camadas-tag-label">01 · Esmalte</span>
+            <span class="camadas-tag-line"></span>
+          </div>
+          <p class="camadas-tag-desc">Vitrificada, brilhante, protege e dá personalidade.</p>
+        </div>
+        <div class="camadas-tag" style="top:31%;">
+          <div class="camadas-tag-head">
+            <span class="camadas-tag-label">02 · Cor</span>
+            <span class="camadas-tag-line"></span>
+          </div>
+          <p class="camadas-tag-desc">A pigmentação que define o tom e o estilo da peça.</p>
+        </div>
+        <div class="camadas-tag" style="top:59%;">
+          <div class="camadas-tag-head">
+            <span class="camadas-tag-label">03 · Corpo</span>
+            <span class="camadas-tag-line"></span>
+          </div>
+          <p class="camadas-tag-desc">A estrutura da cerâmica, moldada à mão.</p>
+        </div>
+        <div class="camadas-tag" style="top:88%;">
+          <div class="camadas-tag-head">
+            <span class="camadas-tag-label">04 · Base</span>
+            <span class="camadas-tag-line"></span>
+          </div>
+          <p class="camadas-tag-desc">Argila crua, pronta para sua personalização.</p>
+        </div>
+
+        <div class="camadas-stage">
+          <div class="camadas-layer" style="--dir:-1; --dist:46; --speed:0.85; z-index:4;">
+            <img src="media/exploded/layer-esmalte.webp" alt="Camada de esmalte da xícara"/>
+          </div>
+          <div class="camadas-layer" style="--dir:-1; --dist:20; --speed:0.95; z-index:3;">
+            <img src="media/exploded/layer-cor.webp" alt="Camada de cor da xícara"/>
+          </div>
+          <div class="camadas-layer" style="--dir:0; --dist:0; --speed:1; z-index:2;">
+            <img src="media/exploded/layer-corpo.webp" alt="Corpo da xícara"/>
+          </div>
+          <div class="camadas-layer" style="--dir:1; --dist:38; --speed:1.1; z-index:1;">
+            <img src="media/exploded/layer-base.webp" alt="Base da xícara"/>
+          </div>
+        </div>
+      </div>
+      <div class="camadas-side">
+        <div class="sobre-steps">
+          <div class="sobre-step">
+            <svg class="pillar-icon" aria-hidden="true"><use href="#i-hand"/></svg>
+            <p class="pillar-title">Feito à mão</p>
+            <p class="pillar-text">Cada peça moldada uma a uma, no ritmo do artesanato — sem dois contornos exatamente iguais.</p>
+          </div>
+          <div class="sobre-step">
+            <svg class="pillar-icon" aria-hidden="true"><use href="#i-unique"/></svg>
+            <p class="pillar-title">Única</p>
+            <p class="pillar-text">Mesma forma, mesmo carimbo — e ainda assim, nenhuma peça sai igual à outra.</p>
+          </div>
+          <div class="sobre-step">
+            <svg class="pillar-icon" aria-hidden="true"><use href="#i-leaf"/></svg>
+            <p class="pillar-title">Atóxica</p>
+            <p class="pillar-text">Materiais seguros, prontos para o dia a dia e para durar.</p>
+          </div>
+        </div>
       </div>
     </div>
-
-    <p class="video-caption reveal d3">Assista como cada peça nasce — moldada à mão, do início ao fim.</p>
   </div>
 </section>
 
@@ -1358,25 +1444,53 @@
   <div class="container">
     <span class="eyebrow reveal">Como funciona</span>
     <h2 class="reveal d1">Da escolha à sua casa, em três passos.</h2>
+  </div>
 
-    <div class="steps">
-      <div class="step reveal d1">
-        <div class="step-number">i.</div>
-        <h3>Escolha</h3>
-        <p>Selecione o modelo, a cor do esmalte e a personalização desejada.</p>
+  <div class="processo-pin" id="processoPin">
+    <div class="processo-rail" id="processoRail">
+      <div class="processo-panel">
+        <div class="processo-card">
+          <div class="processo-art">
+            <svg aria-hidden="true"><use href="#i-step-escolha"/></svg>
+          </div>
+          <div>
+            <div class="step-number">i.</div>
+            <h3>Escolha</h3>
+            <p>Selecione o modelo, a cor do esmalte e a personalização desejada.</p>
+          </div>
+        </div>
       </div>
-      <div class="step reveal d2">
-        <div class="step-number">ii.</div>
-        <h3>Encomenda</h3>
-        <p>Fechamos o pedido e iniciamos a produção artesanal no ateliê.</p>
+      <div class="processo-panel">
+        <div class="processo-card">
+          <div class="processo-art">
+            <svg aria-hidden="true"><use href="#i-step-encomenda"/></svg>
+          </div>
+          <div>
+            <div class="step-number">ii.</div>
+            <h3>Encomenda</h3>
+            <p>Fechamos o pedido e iniciamos a produção artesanal no ateliê.</p>
+          </div>
+        </div>
       </div>
-      <div class="step reveal d3">
-        <div class="step-number">iii.</div>
-        <h3>Receba</h3>
-        <p>Em 40 a 50 dias, sua peça chega pronta — única e sua.</p>
+      <div class="processo-panel">
+        <div class="processo-card">
+          <div class="processo-art">
+            <svg aria-hidden="true"><use href="#i-step-receba"/></svg>
+          </div>
+          <div>
+            <div class="step-number">iii.</div>
+            <h3>Receba</h3>
+            <p>Em 40 a 50 dias, sua peça chega pronta — única e sua.</p>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="processo-progress" id="processoProgress">
+      <span class="active"></span><span></span><span></span>
+    </div>
+  </div>
 
+  <div class="container">
     <p class="processo-foot reveal">O prazo respeita o tempo de um trabalho 100% artesanal.</p>
   </div>
 </section>
@@ -1447,6 +1561,8 @@
   <svg aria-hidden="true"><use href="#i-wa"/></svg>
 </a>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
   // ─── Esmaltes data ───
   // Para usar a FOTO real da cor na bolinha, preencha `img` com o caminho
@@ -1662,23 +1778,68 @@
     tickReveals();
   }
 
-  // ─── Vídeo: autoplay simples ───
+  // ─── Sobre: camadas (exploded view) — a xícara se desmonta conforme o scroll ───
   (function(){
-    const frame = document.getElementById('videoFrame');
-    const empty = document.getElementById('videoEmpty');
-    if (empty) empty.remove();
-    const v = document.createElement('video');
-    v.src = 'media/processo.mp4';
-    v.autoplay = true;
-    v.muted = true;
-    v.loop = true;
-    v.playsInline = true;
-    v.controls = false;
-    v.setAttribute('disablepictureinpicture', '');
-    v.setAttribute('controlslist', 'nodownload noplaybackrate');
-    v.preload = 'auto';
-    frame.appendChild(v);
-    v.play().catch(()=>{});
+    const pin = document.getElementById('camadas');
+    const visual = document.getElementById('camadasVisual');
+    if (!pin || !visual) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const narrow = window.matchMedia('(max-width: 860px)').matches;
+
+    if (reduced || narrow || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      visual.style.setProperty('--t', 0);
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    ScrollTrigger.create({
+      trigger: pin,
+      start: 'top top+=90',
+      end: '+=' + Math.round(window.innerHeight * 0.55),
+      scrub: 0.5,
+      pin: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate(self) {
+        visual.style.setProperty('--t', self.progress.toFixed(4));
+      },
+    });
+  })();
+
+  // ─── Como funciona: scroll horizontal fixado (pin + scrub) ───
+  (function(){
+    const pin = document.getElementById('processoPin');
+    if (!pin) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const narrow = window.matchMedia('(max-width: 800px)').matches;
+    if (reduced || narrow || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const rail = document.getElementById('processoRail');
+    const panels = Array.from(rail.querySelectorAll('.processo-panel'));
+    const dots = Array.from(document.querySelectorAll('#processoProgress span'));
+    const scrollDistance = () => (panels.length - 1) * window.innerWidth;
+
+    gsap.to(rail, {
+      x: () => -scrollDistance(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: pin,
+        start: 'top top',
+        end: () => '+=' + scrollDistance(),
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate(self) {
+          const idx = Math.min(panels.length - 1, Math.round(self.progress * (panels.length - 1)));
+          dots.forEach((d, k) => d.classList.toggle('active', k === idx));
+        },
+      },
+    });
   })();
 </script>
 
