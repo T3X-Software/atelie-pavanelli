@@ -591,6 +591,8 @@
   .camadas-ruler {
     position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px;
     background: rgba(44,44,42,0.12);
+    opacity: var(--t, 0);
+    transition: opacity .4s var(--ease);
   }
   .camadas-ruler-fill {
     position: absolute; left: 0; top: 0; width: 100%;
@@ -626,7 +628,7 @@
   }
   .camadas-stage {
     position: relative;
-    aspect-ratio: 640 / 760;
+    aspect-ratio: 720 / 760;
   }
   .camadas-layer {
     position: absolute; inset: 0;
