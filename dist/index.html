@@ -603,9 +603,10 @@
   .camadas-tag {
     position: absolute;
     left: 14px; width: 200px;
-    transform: translateY(-50%);
-    opacity: var(--t, 0);
-    transition: opacity .4s var(--ease);
+    --reveal: max(0, min(1, calc((var(--t, 0) - var(--tag-at, 0)) * 4)));
+    transform: translateY(-50%) translateX(calc((1 - var(--reveal)) * -10px));
+    opacity: var(--reveal);
+    transition: opacity .4s var(--ease), transform .4s var(--ease);
     pointer-events: none;
   }
   .camadas-tag-head { display: flex; align-items: center; gap: 6px; }
@@ -628,13 +629,28 @@
   }
   .camadas-stage {
     position: relative;
-    aspect-ratio: 720 / 760;
+    aspect-ratio: 1290 / 1728;
+  }
+  .camadas-stage::before {
+    content: "";
+    position: absolute; inset: 8%;
+    background: radial-gradient(closest-side, rgba(139,125,62,0.16), transparent 72%);
+    opacity: var(--t, 0);
+    transform: scale(calc(0.85 + var(--t, 0) * 0.3));
+    transition: opacity .5s var(--ease), transform .5s var(--ease);
+    pointer-events: none;
   }
   .camadas-layer {
     position: absolute; inset: 0;
-    transform: translateY(calc(var(--t, 0) * var(--dir, 0) * var(--dist, 0) * var(--speed, 1) * 1px));
-    filter: drop-shadow(0 calc(var(--t, 0) * 8px) calc(var(--t, 0) * 14px) rgba(44,44,42,0.16));
-    transition: transform .1s linear, filter .1s linear;
+    transform:
+      translateY(calc(var(--t, 0) * var(--dir, 0) * var(--dist, 0) * var(--speed, 1) * 1px))
+      scale(calc(0.97 + var(--t, 0) * 0.03))
+      rotate(calc(var(--t, 0) * var(--dir, 0) * -1.4deg));
+    filter:
+      drop-shadow(0 calc(var(--t, 0) * 8px) calc(var(--t, 0) * 14px) rgba(44,44,42,0.16))
+      blur(calc((1 - var(--t, 0)) * var(--dir, 0) * var(--dir, 0) * 2.5px));
+    opacity: calc(0.55 + var(--t, 0) * 0.45);
+    transition: transform .1s linear, filter .1s linear, opacity .1s linear;
   }
   .camadas-layer img {
     display: block; width: 100%; height: 100%;
@@ -681,6 +697,7 @@
     will-change: transform;
   }
   .processo-panel {
+    --p: 1;
     flex: 0 0 100vw;
     display: flex;
     align-items: center;
@@ -696,6 +713,7 @@
     align-items: center;
   }
   .processo-art {
+    position: relative;
     width: clamp(140px, 16vw, 200px);
     height: clamp(140px, 16vw, 200px);
     border-radius: 50%;
@@ -704,6 +722,20 @@
     display: grid;
     place-items: center;
     color: var(--ouro);
+    transform: scale(calc(0.7 + var(--p, 1) * 0.3)) rotate(calc((1 - var(--p, 1)) * -16deg));
+    opacity: calc(0.35 + var(--p, 1) * 0.65);
+    transition: transform .1s linear, opacity .1s linear;
+  }
+  .processo-art::before {
+    content: "";
+    position: absolute; inset: -18%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(139,125,62,0.22), transparent 70%);
+    opacity: calc(var(--p, 1) * var(--p, 1));
+    transform: scale(calc(0.8 + var(--p, 1) * 0.35));
+    transition: opacity .15s linear, transform .15s linear;
+    pointer-events: none;
+    z-index: -1;
   }
   .processo-art svg { width: 46%; height: 46%; }
   .processo-card .step-number {
@@ -713,9 +745,24 @@
     font-size: 15px;
     margin-bottom: 8px;
     justify-self: start;
+    opacity: calc(0.3 + var(--p, 1) * 0.7);
+    transform: translateY(calc((1 - var(--p, 1)) * 14px));
+    transition: opacity .15s linear, transform .15s linear;
   }
-  .processo-card h3 { font-size: clamp(30px, 4vw, 42px); margin-bottom: 14px; }
-  .processo-card p { font-size: 16px; max-width: 32ch; }
+  .processo-card h3 {
+    font-size: clamp(30px, 4vw, 42px);
+    margin-bottom: 14px;
+    opacity: calc(0.3 + var(--p, 1) * 0.7);
+    transform: translateY(calc((1 - var(--p, 1)) * 14px));
+    transition: opacity .15s linear, transform .15s linear;
+  }
+  .processo-card p {
+    font-size: 16px;
+    max-width: 32ch;
+    opacity: calc(0.3 + var(--p, 1) * 0.7);
+    transform: translateY(calc((1 - var(--p, 1)) * 14px));
+    transition: opacity .18s linear, transform .18s linear;
+  }
   .processo-progress {
     position: absolute;
     left: 50%; bottom: clamp(24px, 5vw, 48px);
@@ -1240,28 +1287,28 @@
       <div class="camadas-visual" id="camadasVisual" style="--t:0">
         <span class="camadas-ruler"><span class="camadas-ruler-fill" id="camadasRulerFill"></span></span>
 
-        <div class="camadas-tag" style="top:6%;">
+        <div class="camadas-tag" style="top:14%; --tag-at:0.04;">
           <div class="camadas-tag-head">
             <span class="camadas-tag-label">01 · Esmalte</span>
             <span class="camadas-tag-line"></span>
           </div>
           <p class="camadas-tag-desc">Vitrificada, brilhante, protege e dá personalidade.</p>
         </div>
-        <div class="camadas-tag" style="top:31%;">
+        <div class="camadas-tag" style="top:30%; --tag-at:0.28;">
           <div class="camadas-tag-head">
             <span class="camadas-tag-label">02 · Cor</span>
             <span class="camadas-tag-line"></span>
           </div>
           <p class="camadas-tag-desc">A pigmentação que define o tom e o estilo da peça.</p>
         </div>
-        <div class="camadas-tag" style="top:59%;">
+        <div class="camadas-tag" style="top:58%; --tag-at:0.52;">
           <div class="camadas-tag-head">
             <span class="camadas-tag-label">03 · Corpo</span>
             <span class="camadas-tag-line"></span>
           </div>
           <p class="camadas-tag-desc">A estrutura da cerâmica, moldada à mão.</p>
         </div>
-        <div class="camadas-tag" style="top:88%;">
+        <div class="camadas-tag" style="top:87%; --tag-at:0.74;">
           <div class="camadas-tag-head">
             <span class="camadas-tag-label">04 · Base</span>
             <span class="camadas-tag-line"></span>
@@ -1790,7 +1837,9 @@
     const narrow = window.matchMedia('(max-width: 860px)').matches;
 
     if (reduced || narrow || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-      visual.style.setProperty('--t', 0);
+      // Sem scroll-jacking (mobile/reduced-motion/sem GSAP), mostra a peça já
+      // separada e nítida (--t:1) em vez de parada no estado borrado do meio.
+      visual.style.setProperty('--t', 1);
       return;
     }
 
@@ -1837,12 +1886,28 @@
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate(self) {
-          const idx = Math.min(panels.length - 1, Math.round(self.progress * (panels.length - 1)));
+          const pos = self.progress * (panels.length - 1);
+          const idx = Math.min(panels.length - 1, Math.round(pos));
           dots.forEach((d, k) => d.classList.toggle('active', k === idx));
+          panels.forEach((panel, k) => {
+            const focus = Math.max(0, 1 - Math.abs(pos - k));
+            panel.style.setProperty('--p', focus.toFixed(4));
+          });
         },
       },
     });
   })();
+
+  // A troca da fonte do Google (display=swap) e imagens que ainda estão
+  // carregando mudam a altura da página depois que o GSAP já calculou as
+  // posições de pin — isso fazia a seção "camadas" grudar no lugar errado
+  // (sobrepondo o hero). Recalcula assim que fontes e recursos terminarem.
+  if (typeof ScrollTrigger !== 'undefined') {
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => ScrollTrigger.refresh());
+    }
+  }
 </script>
 
 </body>

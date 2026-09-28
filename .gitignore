@@ -1,0 +1,6 @@
+.vercel
+.higgsfield-work/
+.playwright-mcp/
+dist/.agents/
+dist/.claude/
+dist/skills-lock.json
