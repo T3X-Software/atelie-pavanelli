@@ -642,14 +642,18 @@
   }
   .camadas-layer {
     position: absolute; inset: 0;
+    /* --close puxa a peça de volta pra "encostar" nas vizinhas em repouso
+       (t=0, xícara inteira e montada); some nos primeiros 20% do scroll,
+       daí em diante só o afastamento normal (--dir/--dist) comanda. */
     transform:
-      translateY(calc(var(--t, 0) * var(--dir, 0) * var(--dist, 0) * var(--speed, 1) * 1px))
-      scale(calc(0.97 + var(--t, 0) * 0.03))
+      translateY(calc(
+        var(--t, 0) * var(--dir, 0) * var(--dist, 0) * var(--speed, 1) * 1px
+        + var(--close, 0px) * clamp(0, calc(1 - var(--t, 0) * 5), 1)
+      ))
+      scale(calc(0.985 + var(--t, 0) * 0.015))
       rotate(calc(var(--t, 0) * var(--dir, 0) * -1.4deg));
-    filter:
-      drop-shadow(0 calc(var(--t, 0) * 8px) calc(var(--t, 0) * 14px) rgba(44,44,42,0.16))
-      blur(calc((1 - var(--t, 0)) * var(--dir, 0) * var(--dir, 0) * 2.5px));
-    opacity: calc(0.55 + var(--t, 0) * 0.45);
+    filter: drop-shadow(0 calc(var(--t, 0) * 8px) calc(var(--t, 0) * 14px) rgba(44,44,42,0.16));
+    opacity: calc(0.92 + var(--t, 0) * 0.08);
     transition: transform .1s linear, filter .1s linear, opacity .1s linear;
   }
   .camadas-layer img {
@@ -1317,16 +1321,16 @@
         </div>
 
         <div class="camadas-stage">
-          <div class="camadas-layer" style="--dir:-1; --dist:46; --speed:0.85; z-index:4;">
+          <div class="camadas-layer" style="--dir:-1; --dist:46; --speed:0.85; --close:41px; z-index:4;">
             <img src="media/exploded/layer-esmalte.webp" alt="Camada de esmalte da xícara"/>
           </div>
-          <div class="camadas-layer" style="--dir:-1; --dist:20; --speed:0.95; z-index:3;">
+          <div class="camadas-layer" style="--dir:-1; --dist:20; --speed:0.95; --close:21px; z-index:3;">
             <img src="media/exploded/layer-cor.webp" alt="Camada de cor da xícara"/>
           </div>
-          <div class="camadas-layer" style="--dir:0; --dist:0; --speed:1; z-index:2;">
+          <div class="camadas-layer" style="--dir:0; --dist:0; --speed:1; --close:0px; z-index:2;">
             <img src="media/exploded/layer-corpo.webp" alt="Corpo da xícara"/>
           </div>
-          <div class="camadas-layer" style="--dir:1; --dist:38; --speed:1.1; z-index:1;">
+          <div class="camadas-layer" style="--dir:1; --dist:38; --speed:1.1; --close:-22px; z-index:1;">
             <img src="media/exploded/layer-base.webp" alt="Base da xícara"/>
           </div>
         </div>
