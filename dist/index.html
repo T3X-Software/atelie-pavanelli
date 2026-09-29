@@ -395,88 +395,89 @@
     font-weight: 300;
   }
 
+  /* Coleção: carrossel de cards (foto ambientada em paisagem + ficha embaixo) */
+  .colecao { background: #F5F1EA; }
+  .colecao .section-head { margin-bottom: 48px; }
+  .colecao .section-head h2 { position: relative; padding-bottom: 26px; }
+  .colecao .section-head h2::after {
+    content: ""; position: absolute; left: 0; bottom: 0; width: 64px; height: 1px; background: var(--ouro);
+  }
+  .product-carousel { position: relative; --gap: clamp(16px, 2vw, 28px); --cols: 3; }
   .product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(28px, 4vw, 56px) clamp(20px, 3vw, 40px);
+    display: flex;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .product-grid::-webkit-scrollbar { display: none; }
+  .product-page {
+    flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always;
+    display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    align-content: start; gap: var(--gap);
+    padding: 2px;                       /* respiro p/ sombra/hover não serem cortados */
+    box-sizing: border-box;
   }
   .product-card {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+    display: flex; flex-direction: column;
+    background: #FBF9F5;
+    border: 1px solid rgba(44,44,42,0.09);
+    border-radius: 4px; overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow .4s var(--ease), transform .4s var(--ease);
   }
+  .product-card:hover { box-shadow: 0 18px 40px -22px rgba(60,44,30,0.35); transform: translateY(-3px); }
   .product-card .slot-wrap {
-    position: relative;
-    aspect-ratio: 4 / 5;
-    background: #C1BAB6;
-    margin-bottom: 14px;
+    position: relative; overflow: hidden;
+    aspect-ratio: 3 / 2;
+    background: #E8DFD2;
   }
-  .product-card image-slot {
-    width: 100%;
-    height: 100%;
+  .product-card .slot-wrap img.pc-img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .8s var(--ease), opacity .35s var(--ease);
   }
-  .product-card .meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-  }
-  .product-name {
-    font-family: var(--serif);
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--carvao);
-    margin: 0;
-    letter-spacing: 0.01em;
-  }
-  .product-price {
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--areia);
-    font-weight: 400;
-    white-space: nowrap;
-  }
-  .product-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #6a6864;
-    font-weight: 300;
-  }
-  .product-tag .dot {
-    width: 10px; height: 10px; border-radius: 50%;
-    border: 1px solid rgba(0,0,0,0.08);
-  }
-  @media (max-width: 1000px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 600px)  { .product-grid { grid-template-columns: 1fr; } }
-
-  /* Card clicável (e-commerce) */
-  .product-card { cursor: pointer; }
-  .product-card .slot-wrap { overflow: hidden; }
-  .product-card .slot-wrap img { transition: transform .6s var(--ease); }
-  .product-card:hover .slot-wrap img { transform: scale(1.045); }
-  .product-card .slot-wrap::after {
-    content: "Ver peça";
-    position: absolute; left: 50%; bottom: 16px; transform: translate(-50%, 8px);
-    background: rgba(44,44,42,0.88); color: var(--creme);
-    font-family: var(--sans); font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
-    padding: 9px 18px; border-radius: 999px;
-    opacity: 0; transition: opacity .3s var(--ease), transform .3s var(--ease);
-    pointer-events: none;
-  }
-  .product-card:hover .slot-wrap::after { opacity: 1; transform: translate(-50%, 0); }
+  .product-card:hover .slot-wrap img.pc-img { transform: scale(1.035); }
   .product-card .photo-count {
     position: absolute; top: 12px; right: 12px;
-    background: rgba(245,240,232,0.92); color: var(--carvao);
+    background: rgba(251,249,245,0.94); color: var(--carvao);
     font-family: var(--sans); font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
-    padding: 5px 11px; border-radius: 999px;
+    padding: 6px 12px; border-radius: 999px;
   }
+  .pc-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 34px; height: 34px; border-radius: 50%; border: 0; padding: 0;
+    background: rgba(251,249,245,0.95); color: var(--carvao);
+    display: grid; place-items: center; cursor: pointer;
+    box-shadow: 0 2px 10px rgba(44,44,42,0.14);
+    transition: background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+  }
+  .pc-arrow:hover { background: var(--carvao); color: var(--creme); }
+  .pc-arrow.pc-prev { left: 12px; } .pc-arrow.pc-next { right: 12px; }
+  .pc-arrow svg { width: 15px; height: 15px; }
+  .pc-body { display: flex; flex-direction: column; gap: 10px; padding: 24px 26px 22px; flex: 1; }
+  .product-name {
+    font-family: var(--serif); font-size: clamp(22px, 2vw, 27px); font-weight: 400;
+    color: var(--carvao); margin: 0; letter-spacing: 0.01em; line-height: 1.15;
+  }
+  .pc-desc { margin: 0; font-size: 14px; line-height: 1.55; color: #5a5854; font-weight: 300; min-height: 1.6em; }
+  .pc-sw { display: flex; gap: 8px; margin-top: 2px; }
+  .pc-sw i { width: 17px; height: 17px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); display: block; }
+  .pc-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: auto; padding-top: 6px; }
+  .product-price { font-family: var(--sans); font-size: 20px; letter-spacing: .02em; color: var(--carvao); font-weight: 400; white-space: nowrap; }
+  .pc-more {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding-left: 18px; border-left: 1px solid rgba(44,44,42,0.14);
+    font-family: var(--sans); font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--carvao);
+  }
+  .pc-more svg { width: 15px; height: 15px; transition: transform .3s var(--ease); }
+  .product-card:hover .pc-more svg { transform: translateX(4px); }
+  .product-dots { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 30px; }
+  .product-dots button {
+    width: 6px; height: 6px; padding: 0; border-radius: 50%; border: 0; cursor: pointer;
+    background: rgba(44,44,42,0.2); transition: background .3s var(--ease), transform .3s var(--ease);
+  }
+  .product-dots button.active { background: var(--ouro); transform: scale(1.35); }
+  .product-dots::before { content: ""; width: 20px; height: 1px; background: rgba(44,44,42,0.18); margin-right: 4px; }
+  @media (max-width: 1000px) { .product-carousel { --cols: 2; } }
+  @media (max-width: 600px)  { .product-carousel { --cols: 1; } .pc-body { padding: 20px 20px 18px; } }
 
   /* Modal de produto */
   .pm-overlay {
@@ -629,8 +630,14 @@
   }
   .camadas-stage {
     position: relative;
-    aspect-ratio: 1290 / 1728;
+    aspect-ratio: 1000 / 1300;
   }
+  /* Exploded view em fotos (sprites): posições/tamanhos vêm do JS em unidades de 1000×1300 */
+  .camadas-rig { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+  .mug-sprite { position: absolute; display: block; pointer-events: none; user-select: none; will-change: transform, filter; }
+  .mug-sprite img { display: block; width: 100%; height: auto; }
+  .mug-shell .mug-body { position: relative; z-index: 1; }
+  .mug-shell .mug-handle { position: absolute; z-index: 0; transform-origin: 0 50%; will-change: transform; }
   .camadas-stage::before {
     content: "";
     position: absolute; inset: 8%;
@@ -691,104 +698,66 @@
   }
 
   /* ─────────────────────────────────────────────────
-     COMO FUNCIONA — pinned horizontal scroll
+     COMO FUNCIONA — história guiada pelo scroll (filme + 3 etapas)
      ───────────────────────────────────────────────── */
-  .processo-pin { position: relative; }
-  .processo-rail {
-    display: flex;
-    height: 100vh;
-    align-items: center;
-    will-change: transform;
-  }
-  .processo-panel {
-    --p: 1;
-    flex: 0 0 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 var(--gutter);
-  }
-  .processo-card {
-    max-width: 680px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: clamp(32px, 5vw, 64px);
-    align-items: center;
-  }
-  .processo-art {
+  .processo-pin {
     position: relative;
-    width: clamp(140px, 16vw, 200px);
-    height: clamp(140px, 16vw, 200px);
-    border-radius: 50%;
-    border: 1px solid var(--areia);
-    background: var(--creme);
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: clamp(96px, 12vh, 132px) 0 clamp(28px, 5vh, 56px);
+    box-sizing: border-box;
+  }
+  .hf-head { text-align: center; margin-bottom: clamp(20px, 4vh, 44px); }
+  .hf-head .eyebrow { margin-bottom: 14px; display: inline-block; }
+  .hf-head h2 { margin: 0; }
+  .hf-stage {
+    --p: 0;
+    width: min(1180px, 100% - var(--gutter) * 2);
+    margin: 0 auto;
     display: grid;
-    place-items: center;
-    color: var(--ouro);
-    transform: scale(calc(0.7 + var(--p, 1) * 0.3)) rotate(calc((1 - var(--p, 1)) * -16deg));
-    opacity: calc(0.35 + var(--p, 1) * 0.65);
-    transition: transform .1s linear, opacity .1s linear;
+    grid-template-columns: minmax(240px, 5fr) 7fr;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
   }
-  .processo-art::before {
-    content: "";
-    position: absolute; inset: -18%;
-    border-radius: 50%;
-    background: radial-gradient(closest-side, rgba(139,125,62,0.22), transparent 70%);
-    opacity: calc(var(--p, 1) * var(--p, 1));
-    transform: scale(calc(0.8 + var(--p, 1) * 0.35));
-    transition: opacity .15s linear, transform .15s linear;
-    pointer-events: none;
-    z-index: -1;
+  .hf-steps { list-style: none; margin: 0; padding: 0 0 0 26px; position: relative; display: flex; flex-direction: column; gap: clamp(28px, 6vh, 56px); }
+  .hf-steps::before, .hf-steps::after { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; }
+  .hf-steps::before { background: rgba(44,44,42,0.14); }
+  .hf-steps::after { background: var(--ouro); transform-origin: top; transform: scaleY(var(--p)); transition: transform .12s linear; }
+  .hf-step { display: block; opacity: .3; transition: opacity .7s var(--ease), transform .7s var(--ease); transform: translateX(-6px); }
+  .hf-step.is-active { opacity: 1; transform: none; }
+  .hf-step .step-number { width: auto; height: auto; border: none; background: none; font-size: 15px; margin: 0 0 6px; display: block; }
+  .hf-step h3 { font-family: var(--serif); font-weight: 500; font-size: clamp(30px, 3.4vw, 42px); margin: 0 0 12px; text-align: left; }
+  .hf-step p { font-size: 15px; color: #5a5854; font-weight: 300; line-height: 1.75; margin: 0; max-width: 34ch; text-align: left; }
+  .hf-film {
+    position: relative; margin: 0;
+    aspect-ratio: 1176 / 780;
+    border-radius: 4px; overflow: hidden;
+    background: #E4DCCD;
+    box-shadow: 0 30px 60px -34px rgba(60,44,30,0.45);
   }
-  .processo-art svg { width: 46%; height: 46%; }
-  .processo-card .step-number {
-    width: auto; height: auto;
-    border: none;
-    background: none;
-    font-size: 15px;
-    margin-bottom: 8px;
-    justify-self: start;
-    opacity: calc(0.3 + var(--p, 1) * 0.7);
-    transform: translateY(calc((1 - var(--p, 1)) * 14px));
-    transition: opacity .15s linear, transform .15s linear;
+  .hf-film video, .hf-film img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hf-film video { opacity: 0; transition: opacity .5s var(--ease); }
+  .hf-film.ready video { opacity: 1; }
+  .hf-cap {
+    position: absolute; left: 18px; bottom: 16px;
+    font-family: var(--sans); font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.92); text-shadow: 0 1px 10px rgba(30,20,10,0.5);
+    transition: opacity .5s var(--ease);
   }
-  .processo-card h3 {
-    font-size: clamp(30px, 4vw, 42px);
-    margin-bottom: 14px;
-    opacity: calc(0.3 + var(--p, 1) * 0.7);
-    transform: translateY(calc((1 - var(--p, 1)) * 14px));
-    transition: opacity .15s linear, transform .15s linear;
+  @media (max-width: 900px) {
+    .processo-pin { padding-top: 84px; justify-content: flex-start; }
+    .hf-head { margin-bottom: 18px; }
+    .hf-stage { grid-template-columns: 1fr; gap: 20px; width: min(560px, 100% - var(--gutter) * 2); }
+    .hf-film { order: -1; }
+    .hf-steps { padding: 0; display: grid; text-align: center; }
+    .hf-steps::before, .hf-steps::after { display: none; }
+    .hf-step { grid-area: 1 / 1; opacity: 0; pointer-events: none; transform: translateY(8px); }
+    .hf-step.is-active { opacity: 1; pointer-events: auto; transform: none; }
+    .hf-step h3, .hf-step p { text-align: center; margin-left: auto; margin-right: auto; }
+    .hf-step h3 { font-size: 30px; margin-bottom: 8px; }
   }
-  .processo-card p {
-    font-size: 16px;
-    max-width: 32ch;
-    opacity: calc(0.3 + var(--p, 1) * 0.7);
-    transform: translateY(calc((1 - var(--p, 1)) * 14px));
-    transition: opacity .18s linear, transform .18s linear;
-  }
-  .processo-progress {
-    position: absolute;
-    left: 50%; bottom: clamp(24px, 5vw, 48px);
-    transform: translateX(-50%);
-    display: flex; gap: 10px;
-    z-index: 2;
-  }
-  .processo-progress span {
-    width: 34px; height: 2px; background: var(--areia);
-    position: relative; overflow: hidden;
-  }
-  .processo-progress span::after {
-    content: ""; position: absolute; inset: 0;
-    background: var(--ouro); transform: scaleX(0); transform-origin: left;
-  }
-  .processo-progress span.active::after { transform: scaleX(1); transition: transform .3s var(--ease); }
-  @media (max-width: 800px) {
-    .processo-card { grid-template-columns: 1fr; text-align: center; justify-items: center; }
-    .processo-pin { height: auto; }
-    .processo-rail { flex-direction: column; height: auto; }
-    .processo-panel { flex: none; width: 100%; padding: 40px var(--gutter); }
-    .processo-progress { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .hf-step { opacity: 1; transform: none; }
   }
 
   /* ─────────────────────────────────────────────────
@@ -832,8 +801,12 @@
     transition: transform .5s var(--ease);
   }
   .swatch:hover .swatch-chip { transform: translateY(-4px) scale(1.02); }
-  .swatch-chip.has-photo { background-size: cover; background-position: center; background-repeat: no-repeat; }
-  .swatch-chip.matte { box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05); }
+  .swatch-chip.has-photo {
+    background-size: cover; background-position: center; background-repeat: no-repeat;
+    border-color: rgba(60,44,30,0.06);
+    box-shadow: 0 12px 24px -16px rgba(60,44,30,0.45);
+  }
+  .swatch-chip.matte { box-shadow: 0 12px 24px -16px rgba(60,44,30,0.35); }
   .swatch-name {
     font-family: var(--sans);
     font-size: 12px;
@@ -902,46 +875,22 @@
   /* ─────────────────────────────────────────────────
      COMO FUNCIONA
      ───────────────────────────────────────────────── */
-  .processo { padding: clamp(80px, 12vw, 140px) 0 0; text-align: center; }
-  .processo .eyebrow { margin-bottom: 18px; display: inline-block; }
-  .processo h2 { margin-bottom: 0; }
+  .processo { padding: 0; text-align: center; }
   .step-number {
     font-family: var(--serif);
     font-style: italic;
     font-size: 14px;
     color: var(--ouro);
-    background: var(--creme);
-    width: 56px; height: 56px;
-    border: 1px solid var(--areia);
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
     letter-spacing: 0.04em;
   }
-  .processo-card h3 {
-    font-family: var(--serif);
-    font-weight: 500;
-    text-align: left;
-  }
-  .processo-card p {
-    font-size: 15px;
-    color: #5a5854;
-    font-weight: 300;
-    line-height: 1.75;
-    margin: 0;
-    text-align: left;
-  }
   .processo-foot {
-    padding: clamp(48px, 8vw, 88px) 0 clamp(80px, 12vw, 140px);
+    padding: clamp(40px, 6vw, 72px) 0 clamp(80px, 12vw, 140px);
     font-size: 13px;
     font-weight: 300;
     color: var(--areia);
     font-style: italic;
     letter-spacing: 0.04em;
     margin: 0;
-  }
-  @media (max-width: 800px) {
-    .processo-card h3, .processo-card p { text-align: center; }
   }
 
   /* ─────────────────────────────────────────────────
@@ -1291,21 +1240,21 @@
       <div class="camadas-visual" id="camadasVisual" style="--t:0">
         <span class="camadas-ruler"><span class="camadas-ruler-fill" id="camadasRulerFill"></span></span>
 
-        <div class="camadas-tag" style="top:14%; --tag-at:0.04;">
+        <div class="camadas-tag" style="top:19%; --tag-at:0.04;">
           <div class="camadas-tag-head">
             <span class="camadas-tag-label">01 · Esmalte</span>
             <span class="camadas-tag-line"></span>
           </div>
           <p class="camadas-tag-desc">Vitrificada, brilhante, protege e dá personalidade.</p>
         </div>
-        <div class="camadas-tag" style="top:30%; --tag-at:0.28;">
+        <div class="camadas-tag" style="top:48%; --tag-at:0.28;">
           <div class="camadas-tag-head">
             <span class="camadas-tag-label">02 · Cor</span>
             <span class="camadas-tag-line"></span>
           </div>
           <p class="camadas-tag-desc">A pigmentação que define o tom e o estilo da peça.</p>
         </div>
-        <div class="camadas-tag" style="top:58%; --tag-at:0.52;">
+        <div class="camadas-tag" style="top:68%; --tag-at:0.52;">
           <div class="camadas-tag-head">
             <span class="camadas-tag-label">03 · Corpo</span>
             <span class="camadas-tag-line"></span>
@@ -1320,18 +1269,15 @@
           <p class="camadas-tag-desc">Argila crua, pronta para sua personalização.</p>
         </div>
 
-        <div class="camadas-stage">
-          <div class="camadas-layer" style="--dir:-1; --dist:46; --speed:0.85; --close:41px; z-index:4;">
-            <img src="media/exploded/layer-esmalte.webp" alt="Camada de esmalte da xícara"/>
-          </div>
-          <div class="camadas-layer" style="--dir:-1; --dist:20; --speed:0.95; --close:21px; z-index:3;">
-            <img src="media/exploded/layer-cor.webp" alt="Camada de cor da xícara"/>
-          </div>
-          <div class="camadas-layer" style="--dir:0; --dist:0; --speed:1; --close:0px; z-index:2;">
-            <img src="media/exploded/layer-corpo.webp" alt="Corpo da xícara"/>
-          </div>
-          <div class="camadas-layer" style="--dir:1; --dist:38; --speed:1.1; --close:-22px; z-index:1;">
-            <img src="media/exploded/layer-base.webp" alt="Base da xícara"/>
+        <div class="camadas-stage" id="camadasStage">
+          <div class="camadas-rig" id="camadasRig">
+            <img class="mug-sprite" data-k="base"  src="media/mug/ring-base.webp"  alt="Base de argila crua da xícara" style="z-index:1" decoding="async"/>
+            <img class="mug-sprite" data-k="corpo" src="media/mug/ring-corpo.webp" alt="Corpo da xícara" style="z-index:2" decoding="async"/>
+            <img class="mug-sprite" data-k="cor"   src="media/mug/ring-cor.webp"   alt="Camada de cor da xícara" style="z-index:3" decoding="async"/>
+            <div class="mug-sprite mug-shell" data-k="shell" style="z-index:4">
+              <img class="mug-handle" src="media/mug/shell-handle.webp" alt="" decoding="async"/>
+              <img class="mug-body" src="media/mug/shell-body.webp" alt="Casca de esmalte da xícara" decoding="async"/>
+            </div>
           </div>
         </div>
       </div>
@@ -1369,12 +1315,15 @@
         <h2>Peças para uma mesa que respira.</h2>
       </div>
       <p class="head-aside reveal d1">
-        Modelos que voltam ao ateliê. Cada um pode ser pedido em qualquer esmalte da paleta —
-        e personalizado para você.
+        Cada peça é única, feita à mão e pensada para transformar o simples em especial.
+        Descubra a coleção e encontre a que vai fazer parte da sua mesa.
       </p>
     </div>
 
-    <div class="product-grid" id="productGrid"></div>
+    <div class="product-carousel">
+      <div class="product-grid" id="productGrid"></div>
+      <div class="product-dots" id="productDots" aria-label="Páginas da coleção"></div>
+    </div>
   </div>
 </section>
 
@@ -1494,52 +1443,38 @@
      06 — COMO FUNCIONA
      ═══════════════════════════════════════════════ -->
 <section class="processo" id="processo">
-  <div class="container">
-    <span class="eyebrow reveal">Como funciona</span>
-    <h2 class="reveal d1">Da escolha à sua casa, em três passos.</h2>
-  </div>
-
   <div class="processo-pin" id="processoPin">
-    <div class="processo-rail" id="processoRail">
-      <div class="processo-panel">
-        <div class="processo-card">
-          <div class="processo-art">
-            <svg aria-hidden="true"><use href="#i-step-escolha"/></svg>
-          </div>
-          <div>
-            <div class="step-number">i.</div>
-            <h3>Escolha</h3>
-            <p>Selecione o modelo, a cor do esmalte e a personalização desejada.</p>
-          </div>
-        </div>
-      </div>
-      <div class="processo-panel">
-        <div class="processo-card">
-          <div class="processo-art">
-            <svg aria-hidden="true"><use href="#i-step-encomenda"/></svg>
-          </div>
-          <div>
-            <div class="step-number">ii.</div>
-            <h3>Encomenda</h3>
-            <p>Fechamos o pedido e iniciamos a produção artesanal no ateliê.</p>
-          </div>
-        </div>
-      </div>
-      <div class="processo-panel">
-        <div class="processo-card">
-          <div class="processo-art">
-            <svg aria-hidden="true"><use href="#i-step-receba"/></svg>
-          </div>
-          <div>
-            <div class="step-number">iii.</div>
-            <h3>Receba</h3>
-            <p>Em 40 a 50 dias, sua peça chega pronta — única e sua.</p>
-          </div>
-        </div>
-      </div>
+    <div class="hf-head container">
+      <span class="eyebrow reveal">Como funciona</span>
+      <h2 class="reveal d1">Da escolha à sua casa, em três passos.</h2>
     </div>
-    <div class="processo-progress" id="processoProgress">
-      <span class="active"></span><span></span><span></span>
+
+    <div class="hf-stage" id="hfStage">
+      <ol class="hf-steps" id="hfSteps">
+        <li class="hf-step is-active" data-step="0">
+          <span class="step-number">i.</span>
+          <h3>Escolha</h3>
+          <p>Selecione o modelo, a cor do esmalte e a personalização desejada.</p>
+        </li>
+        <li class="hf-step" data-step="1">
+          <span class="step-number">ii.</span>
+          <h3>Encomenda</h3>
+          <p>Fechamos o pedido e iniciamos a produção artesanal no ateliê.</p>
+        </li>
+        <li class="hf-step" data-step="2">
+          <span class="step-number">iii.</span>
+          <h3>Receba</h3>
+          <p>Em 40 a 50 dias, sua peça chega pronta — única e sua.</p>
+        </li>
+      </ol>
+
+      <figure class="hf-film" id="hfFilm">
+        <img id="hfPoster" src="media/historia/poster.jpg" alt="Uma mulher escolhe uma caneca artesanal no computador" decoding="async"/>
+        <video id="hfVideo" muted playsinline preload="auto" tabindex="-1" aria-hidden="true">
+          <source src="media/historia/film.mp4" type="video/mp4"/>
+        </video>
+        <figcaption class="hf-cap" id="hfCap"></figcaption>
+      </figure>
     </div>
   </div>
 
@@ -1547,6 +1482,7 @@
     <p class="processo-foot reveal">O prazo respeita o tempo de um trabalho 100% artesanal.</p>
   </div>
 </section>
+
 
 <!-- ═══════════════════════════════════════════════
      07 — PERSONALIZAÇÃO
@@ -1651,8 +1587,11 @@
   ESMALTES.forEach((c) => {
     const el = document.createElement('div');
     el.className = 'swatch';
-    const chipCls = 'swatch-chip' + (c.matte ? ' matte' : '') + (c.img ? ' has-photo' : '');
-    const chipStyle = c.img ? `background-image:url('${c.img}')` : `background:${c.hex}`;
+    // textura salpicada de porcelanato: media/cores/<nome-sem-acento>.webp (a cor `hex` fica por baixo enquanto carrega)
+    const slug = c.name.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, '-');
+    const img = c.img || `media/cores/${slug}.webp`;
+    const chipCls = 'swatch-chip has-photo' + (c.matte ? ' matte' : '');
+    const chipStyle = `background-color:${c.hex};background-image:url('${img}')`;
     const label = c.name + (c.matte ? ' <small>matte</small>' : '');
     el.innerHTML = `
       <div class="${chipCls}" style="${chipStyle}"></div>
@@ -1679,6 +1618,12 @@
   const pDot = (p) => `background:${p.dot}` + (pLight(p) ? ';border-color:#C4B89A' : '');
   const pTag = (p) => `<span class="dot" style="${pDot(p)}"></span>${p.color}${p.spec ? ' · ' + p.spec : ''}${p.personalizavel ? ' · Personalizável' : ''}`;
 
+  const coverOf = (p) => `media/colecao/${p.slug}/cover.jpg`;
+  const ARR_L = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const ARR_R = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const ARR_GO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 H19 M13 6 L19 12 L13 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const pDesc = (p) => [p.color, p.spec, p.personalizavel ? 'Personalizável' : ''].filter(Boolean).join(' · ');
+
   const grid = document.getElementById('productGrid');
   COLECAO.forEach((p, i) => {
     const card = document.createElement('article');
@@ -1686,21 +1631,77 @@
     card.dataset.slug = p.slug;
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
+    const photos = [coverOf(p), ...pImgs(p).slice(1)];   // capa ambientada + demais fotos (ainda originais)
     card.innerHTML = `
       <div class="slot-wrap">
-        <img src="${pImgs(p)[0]}" alt="${p.name} — ${p.color}" style="width:100%;height:100%;object-fit:contain;display:block" loading="lazy"/>
-        ${p.n>1 ? `<span class="photo-count">${p.n} fotos</span>` : ''}
+        <img class="pc-img" src="${photos[0]}" alt="${p.name} — ${p.color}" loading="lazy"/>
+        ${p.n>1 ? `<span class="photo-count">${p.n} fotos</span>
+        <button class="pc-arrow pc-prev" type="button" aria-label="Foto anterior">${ARR_L}</button>
+        <button class="pc-arrow pc-next" type="button" aria-label="Próxima foto">${ARR_R}</button>` : ''}
       </div>
-      <div class="meta">
+      <div class="pc-body">
         <h3 class="product-name">${p.name}</h3>
-        <span class="product-price">${p.price}</span>
-      </div>
-      <span class="product-tag">${pTag(p)}</span>`;
+        <p class="pc-desc">${pDesc(p)}</p>
+        <span class="pc-sw" aria-hidden="true"><i style="${pDot(p)}"></i></span>
+        <div class="pc-foot">
+          <span class="product-price">${p.price}</span>
+          <span class="pc-more">Ver detalhes ${ARR_GO}</span>
+        </div>
+      </div>`;
+    // setas do card: passam as fotos da própria peça sem abrir o modal
+    let k = 0;
+    const im = card.querySelector('.pc-img');
+    const go = (d) => (e) => {
+      e.stopPropagation();
+      k = (k + d + photos.length) % photos.length;
+      im.style.opacity = 0;
+      setTimeout(() => { im.src = photos[k]; im.style.opacity = 1; }, 160);
+    };
+    const prev = card.querySelector('.pc-prev'), next = card.querySelector('.pc-next');
+    if (prev) { prev.addEventListener('click', go(-1)); next.addEventListener('click', go(1)); }
     const open = () => openModal(p);
     card.addEventListener('click', open);
     card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
     grid.appendChild(card);
   });
+
+  // Carrossel em páginas: (colunas × 2 linhas) cards por página → desktop 6/página, 2 pontos p/ 10 peças
+  (function(){
+    const dots = document.getElementById('productDots');
+    const carousel = grid.parentElement;
+    if (!dots) return;
+    const all = Array.from(grid.children);
+    const colsNow = () => parseInt(getComputedStyle(carousel).getPropertyValue('--cols')) || 3;
+    let cols = 0;
+    const paginate = () => {
+      const c = colsNow();
+      if (c === cols) return;
+      cols = c;
+      const per = c * 2;
+      grid.innerHTML = '';
+      for (let i = 0; i < all.length; i += per) {
+        const page = document.createElement('div');
+        page.className = 'product-page';
+        all.slice(i, i + per).forEach(card => page.appendChild(card));
+        grid.appendChild(page);
+      }
+      grid.scrollLeft = 0;
+      dots.innerHTML = '';
+      Array.from(grid.children).forEach((_, n) => {
+        const bt = document.createElement('button'); bt.type = 'button'; bt.setAttribute('aria-label', 'Página ' + (n + 1));
+        bt.addEventListener('click', () => grid.scrollTo({ left: n * grid.clientWidth, behavior: 'smooth' }));
+        dots.appendChild(bt);
+      });
+      sync();
+    };
+    const sync = () => {
+      const idx = Math.round(grid.scrollLeft / Math.max(1, grid.clientWidth));
+      dots.querySelectorAll('button').forEach((bt, j) => bt.classList.toggle('active', j === idx));
+    };
+    grid.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+    window.addEventListener('resize', () => { paginate(); sync(); });
+    paginate();
+  })();
 
   // Modal
   const ov = document.getElementById('pmOverlay');
@@ -1723,7 +1724,7 @@
     if (active) active.scrollIntoView({ inline:'nearest', block:'nearest' });
   }
   function openModal(p) {
-    gal = pImgs(p); gi = 0;
+    gal = [coverOf(p), ...pImgs(p)]; gi = 0;
     pmName.textContent = p.name;
     pmTagEl.innerHTML = pTag(p);
     pmPrice.textContent = p.price;
@@ -1844,6 +1845,7 @@
       // Sem scroll-jacking (mobile/reduced-motion/sem GSAP), mostra a peça já
       // separada e nítida (--t:1) em vez de parada no estado borrado do meio.
       visual.style.setProperty('--t', 1);
+      visual.dispatchEvent(new CustomEvent('camadas:t', { detail: 1 }));
       return;
     }
 
@@ -1859,47 +1861,64 @@
       invalidateOnRefresh: true,
       onUpdate(self) {
         visual.style.setProperty('--t', self.progress.toFixed(4));
+        visual.dispatchEvent(new CustomEvent('camadas:t', { detail: self.progress }));
       },
     });
   })();
 
-  // ─── Como funciona: scroll horizontal fixado (pin + scrub) ───
+  // ─── Como funciona: uma única história guiada pelo scroll (filme scrubbed + 3 etapas) ───
   (function(){
     const pin = document.getElementById('processoPin');
-    if (!pin) return;
+    const stage = document.getElementById('hfStage');
+    const film = document.getElementById('hfFilm');
+    const video = document.getElementById('hfVideo');
+    const cap = document.getElementById('hfCap');
+    if (!pin || !stage || !video) return;
+    const steps = Array.from(document.querySelectorAll('#hfSteps .hf-step'));
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const narrow = window.matchMedia('(max-width: 800px)').matches;
-    if (reduced || narrow || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    // etapa ativa por trecho do filme: escolha → ateliê/envio → chegada
+    const BREAKS = [0.28, 0.78];
+    const CAPS = ['Laura escolhe', 'No ateliê', 'A caminho', 'Em casa'];
+    const setStep = (pr) => {
+      const idx = pr < BREAKS[0] ? 0 : pr < BREAKS[1] ? 1 : 2;
+      steps.forEach((el, i) => el.classList.toggle('is-active', i === idx));
+      const c = pr < 0.28 ? 0 : pr < 0.6 ? 1 : pr < 0.78 ? 2 : 3;
+      if (cap && cap.textContent !== CAPS[c]) cap.textContent = CAPS[c];
+      stage.style.setProperty('--p', pr.toFixed(4));
+    };
+    setStep(0);
 
+    if (reduced || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      // sem scroll-jacking: mostra todas as etapas e deixa o filme parado no pôster
+      steps.forEach(el => el.classList.add('is-active'));
+      return;
+    }
     gsap.registerPlugin(ScrollTrigger);
 
-    const rail = document.getElementById('processoRail');
-    const panels = Array.from(rail.querySelectorAll('.processo-panel'));
-    const dots = Array.from(document.querySelectorAll('#processoProgress span'));
-    const scrollDistance = () => (panels.length - 1) * window.innerWidth;
+    let dur = 0, target = 0, cur = 0, ready = false;
+    const onMeta = () => { dur = video.duration || 0; ready = dur > 0; if (ready) film.classList.add('ready'); };
+    video.addEventListener('loadedmetadata', onMeta);
+    if (video.readyState >= 1) onMeta();
 
-    gsap.to(rail, {
-      x: () => -scrollDistance(),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: pin,
-        start: 'top top',
-        end: () => '+=' + scrollDistance(),
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate(self) {
-          const pos = self.progress * (panels.length - 1);
-          const idx = Math.min(panels.length - 1, Math.round(pos));
-          dots.forEach((d, k) => d.classList.toggle('active', k === idx));
-          panels.forEach((panel, k) => {
-            const focus = Math.max(0, 1 - Math.abs(pos - k));
-            panel.style.setProperty('--p', focus.toFixed(4));
-          });
-        },
-      },
+    ScrollTrigger.create({
+      trigger: pin,
+      start: 'top top',
+      end: () => '+=' + Math.round(window.innerHeight * 5.5),
+      pin: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate(self) { target = self.progress; setStep(target); },
     });
+
+    // suaviza o "arrasto" do scroll no tempo do vídeo
+    (function loop() {
+      cur += (target - cur) * 0.14;
+      if (ready) {
+        const t = Math.min(dur - 0.05, Math.max(0, cur * dur));
+        if (!video.seeking && Math.abs(video.currentTime - t) > 0.03) video.currentTime = t;
+      }
+      requestAnimationFrame(loop);
+    })();
   })();
 
   // A troca da fonte do Google (display=swap) e imagens que ainda estão
@@ -1912,6 +1931,67 @@
       document.fonts.ready.then(() => ScrollTrigger.refresh());
     }
   }
+</script>
+
+<script>
+  // ─── Sobre: exploded view em fotos — a casca de esmalte sobe e "gira" (alça), revelando cor, corpo e base ───
+  (function(){
+    const visual = document.getElementById('camadasVisual');
+    const stage = document.getElementById('camadasStage');
+    const rig = document.getElementById('camadasRig');
+    if (!visual || !stage || !rig) return;
+
+    // Layout em unidades de um palco 1000×1300. Tamanhos naturais dos recortes (px) → escala.
+    const SH = 1300;
+    const NAT = { shell: [605, 714], hand: [278, 551, 575, 82], cor: [618, 355], corpo: [615, 357], base: [615, 332] };
+    const K = 377 / NAT.shell[0];                      // corpo da casca = 377 unidades de largura
+    const shellW = NAT.shell[0] * K, shellH = NAT.shell[1] * K;
+    const KR = shellW * 0.95 / NAT.corpo[0];           // anéis um pouco mais estreitos: somem dentro da casca
+    const shellX = (1000 - (NAT.hand[2] + NAT.hand[0]) * K) / 2, bodyCX = shellX + shellW / 2;
+    const GAP = 50, TOP = 30;
+    const ring = n => ({ w: NAT[n][0] * KR, h: NAT[n][1] * KR });
+    const cor = ring('cor'), corpo = ring('corpo'), base = ring('base');
+    // topo (y) de cada peça: aberta (exploded) e em repouso (xícara inteira, cor/corpo escondidos na casca)
+    const exp = { shell: TOP };
+    exp.cor = exp.shell + shellH + GAP; exp.corpo = exp.cor + cor.h + GAP; exp.base = exp.corpo + corpo.h + GAP;
+    const restShell = SH / 2 - (shellH + base.h * 0.28) / 2;
+    const rest = { shell: restShell, cor: restShell + shellH * 0.28, corpo: restShell + shellH * 0.5, base: restShell + shellH - base.h * 0.72 };
+    // janela do scroll (0–1) em que cada peça se afasta
+    const WIN = { shell: [0.08, 0.55], cor: [0.28, 0.72], corpo: [0.32, 0.78], base: [0.36, 0.9] };
+
+    const pct = (v, of) => (v / of * 100) + '%';
+    const el = {};
+    rig.querySelectorAll('[data-k]').forEach(n => { el[n.dataset.k] = n; });
+    const place = (n, x, y, w) => { n.style.left = pct(x, 1000); n.style.top = pct(y, SH); n.style.width = pct(w, 1000); };
+    place(el.shell, shellX, exp.shell, shellW);
+    place(el.cor, bodyCX - cor.w / 2, exp.cor, cor.w);
+    place(el.corpo, bodyCX - corpo.w / 2, exp.corpo, corpo.w);
+    place(el.base, bodyCX - base.w / 2, exp.base, base.w);
+    const handle = el.shell.querySelector('.mug-handle');
+    handle.style.left = pct(NAT.hand[2] * K, shellW); handle.style.top = pct(NAT.hand[3] * K, shellH); handle.style.width = pct(NAT.hand[0] * K, shellW);
+
+    const ease = x => x * x * (3 - 2 * x);
+    const win = (t, [a, b]) => ease(Math.min(1, Math.max(0, (t - a) / (b - a))));
+    const lerp = (a, b, k) => a + (b - a) * k;
+    let t = parseFloat(visual.style.getPropertyValue('--t')) || 0, dirty = true;
+
+    const draw = () => {
+      const U = stage.clientWidth / 1000;
+      ['shell', 'cor', 'corpo', 'base'].forEach(n => {
+        const w = win(t, WIN[n]);
+        el[n].style.transform = 'translateY(' + ((1 - w) * (rest[n] - exp[n]) * U).toFixed(2) + 'px)';
+        // sombra suave só depois que a peça se solta
+        el[n].style.filter = 'drop-shadow(0 ' + (w * 14 * U).toFixed(1) + 'px ' + (w * 22 * U).toFixed(1) + 'px rgba(60,44,30,' + (w * 0.22).toFixed(3) + '))';
+      });
+      // "giro": a alça vira de perfil (encurtada) para de lado conforme a casca sobe
+      handle.style.transform = 'scaleX(' + lerp(0.68, 1, win(t, [0.02, 0.6])).toFixed(3) + ')';
+      // câmera: começa mais perto da xícara inteira e recua para mostrar as 4 peças
+      rig.style.transform = 'scale(' + lerp(1.45, 1, win(t, [0, 0.85])).toFixed(3) + ')';
+    };
+    visual.addEventListener('camadas:t', e => { t = e.detail; dirty = true; });
+    window.addEventListener('resize', () => { dirty = true; });
+    (function loop() { if (dirty) { dirty = false; draw(); } requestAnimationFrame(loop); })();
+  })();
 </script>
 
 </body>
